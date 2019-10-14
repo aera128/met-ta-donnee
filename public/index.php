@@ -2,7 +2,7 @@
 
 
 
-use Core\Router;
+use Framework\Router;
 
 /**
  * Composer
