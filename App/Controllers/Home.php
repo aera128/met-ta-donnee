@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use Framework\Controller;
-use Framework\View;
+use Core\Controller;
+use Core\View;
 
 class Home extends Controller
 {

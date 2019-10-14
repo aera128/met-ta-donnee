@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework;
+namespace Core;
 
 use PDO;
 use App\Config;
