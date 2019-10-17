@@ -47,11 +47,9 @@ body {
     transition: background-color 200ms;
 }
 
-/* Change the link color to #111 (black) on hover */
 .navbar ul li a:hover {
     background-color: #111;
 }
-
 
 .container-fluid{
     width: 100%;
