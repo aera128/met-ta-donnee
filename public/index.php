@@ -24,7 +24,7 @@ set_exception_handler('Core\Error::exceptionHandler');
 $router = new Router();
 
 // Liste des routes disponibles
-$router->add('/', ['controller' => 'Home', 'action' => 'index']);
+$router->add('', ['controller' => 'Home', 'action' => 'index']);
 
-$router->dispatch($_SERVER['REQUEST_URI']);
+$router->dispatch($_SERVER['QUERY_STRING']);
 

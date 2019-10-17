@@ -4,14 +4,22 @@ namespace Core;
 
 abstract class Controller
 {
-
     protected $route_params = [];
 
+    /**
+     * Controller constructor.
+     * @param $route_params
+     */
     public function __construct($route_params)
     {
         $this->route_params = $route_params;
     }
 
+    /**
+     * @param $name
+     * @param $args
+     * @throws \Exception
+     */
     public function __call($name, $args)
     {
         $method = $name . 'Action';
@@ -25,7 +33,6 @@ abstract class Controller
             throw new \Exception("Method $method not found in controller " . get_class($this));
         }
     }
-
 
     protected function before()
     {

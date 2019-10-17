@@ -4,7 +4,6 @@ namespace Core;
 
 class Router
 {
-
     protected $routes = [];
 
     protected $params = [];
