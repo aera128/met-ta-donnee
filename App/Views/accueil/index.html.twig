@@ -5,5 +5,8 @@
 {% block body %}
     <section class="container-fluid">
         <h1>Bonjour</h1>
+        {% for img in images %}
+            <img src="images/{{ img }}" width="500">
+        {% endfor %}
     </section>
 {% endblock %}

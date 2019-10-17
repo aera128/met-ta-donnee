@@ -2,8 +2,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="http://localhost/devoir-idc2019/public/css/skin.css">
     <title>{% block title %}{% endblock %}</title>
+    {% block stylesheet %}
+        <link rel="stylesheet" href="css/skin.css">
+    {% endblock %}
 </head>
 <body>
 <nav class="navbar">

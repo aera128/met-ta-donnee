@@ -11,7 +11,11 @@ class Accueil extends Controller
 
     public function indexAction()
     {
-        dump(glob("../".Config::IMG_DIR."/*"));
-        View::renderTwig('accueil/index.html.twig');
+        $images = scandir("../public/images/");
+        $images = array_diff($images, ['.','..']);
+
+        View::renderTwig('accueil/index.html.twig', array(
+            'images' => $images
+        ));
     }
 }
