@@ -5,11 +5,10 @@ namespace App\Controllers;
 use Core\Controller;
 use Core\View;
 
-class Home extends Controller
-{
+class Image extends Controller{
 
     public function indexAction()
     {
-        View::renderTemplate('Home/index.html.twig');
+        View::renderTwig('images/index.html.twig');
     }
 }

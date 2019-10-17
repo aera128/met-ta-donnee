@@ -18,7 +18,7 @@ class View
         }
     }
 
-    public static function renderTemplate($template, $args = [])
+    public static function renderTwig($template, $args = [])
     {
         static $twig = null;
 

@@ -9,4 +9,6 @@ class Config
      * @var boolean
      */
     const SHOW_ERRORS = true;
+
+    const IMG_DIR = "Resources/images";
 }

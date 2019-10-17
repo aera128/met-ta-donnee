@@ -1,30 +1,27 @@
 <?php
 
-
-
 use Core\Router;
 
 /**
- * Composer
+ * Autoloader Composer
  */
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-
 /**
- * Error and Exception handling
+ * Handler des erreurs
  */
 error_reporting(E_ALL);
 set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
 
-
 /**
- * Routing
+ * Router
  */
 $router = new Router();
 
 // Liste des routes disponibles
-$router->add('', ['controller' => 'Home', 'action' => 'index']);
+$router->add('/', ['controller' => 'accueil', 'action' => 'index']);
+$router->add('/images/', ['controller' => 'image', 'action' => 'index']);
 
-$router->dispatch($_SERVER['QUERY_STRING']);
+$router->dispatch($_SERVER['REQUEST_URI']);
 

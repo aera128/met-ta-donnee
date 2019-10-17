@@ -1,10 +1,22 @@
-# Remove the question mark from the request but maintain the query string
-RewriteEngine On
+DirectoryIndex index.php
 
-# Uncomment the following line if your public folder isn't the web server's root
-# RewriteBase /
+<IfModule mod_negotiation.c>
+    Options -MultiViews
+</IfModule>
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-l
-RewriteRule ^(.*)$ index.php?$1 [L,QSA]
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+    RewriteRule ^(.*) - [E=BASE:%1]
+
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
+
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+RewriteRule ^ %{ENV:BASE}/index.php [L]
+</IfModule>
