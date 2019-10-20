@@ -4,15 +4,18 @@ namespace Core;
 
 abstract class Controller
 {
-    protected $route_params = [];
+    protected $request;
+    protected $response;
 
     /**
      * Controller constructor.
-     * @param $route_params
+     * @param Request $request
+     * @param Response $response
      */
-    public function __construct($route_params)
+    public function __construct(Request $request, Response $response)
     {
-        $this->route_params = $route_params;
+        $this->request = $request;
+        $this->response = $response;
     }
 
     /**

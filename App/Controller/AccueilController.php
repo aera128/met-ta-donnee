@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controller;
 
 use App\Config;
 use Core\Controller;
 use Core\View;
 
-class Accueil extends Controller
+class AccueilController extends Controller
 {
 
     public function indexAction()

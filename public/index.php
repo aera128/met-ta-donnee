@@ -1,10 +1,12 @@
 <?php
-
-use Core\Router;
+session_start();
 
 /**
  * Autoloader Composer
  */
+
+use Core\Router\Router;
+
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 /**
@@ -17,11 +19,18 @@ set_exception_handler('Core\Error::exceptionHandler');
 /**
  * Router
  */
-$router = new Router();
+$router = new Router($_GET['url']);
 
 // Liste des routes disponibles
-$router->add('/', ['controller' => 'accueil', 'action' => 'index']);
-$router->add('/images/', ['controller' => 'image', 'action' => 'index']);
+$router->get('/', 'Accueil::index');
+$router->get('/images', 'Image::index');
 
-$router->dispatch($_SERVER['REQUEST_URI']);
+$router->get('/login', 'User::login');
+$router->post('/login', 'User::login');
+
+try {
+    $router->run();
+} catch (\Core\Router\RouterException $e) {
+
+}
 

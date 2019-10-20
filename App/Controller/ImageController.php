@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controller;
 
+use App\Utils;
 use Core\Controller;
 use Core\View;
 
-class Image extends Controller{
+class ImageController extends Controller{
 
     public function indexAction()
     {
+        Utils::connected();
         View::renderTwig('images/index.html.twig');
     }
 }

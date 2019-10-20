@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="public/css/skin.css">
+
     {% block stylesheet %}
-        <link rel="stylesheet" href="css/skin.css">
     {% endblock %}
 </head>
 <body>
 <nav class="navbar">
     <span class="brand">Image Cloud</span>
     <ul>
-        <li><a class="active" href="">Accueil</a></li>
-        <li><a href="/login">Connexion</a></li>
+        <li><a class="active" href="/devoir-idc2019/">Accueil</a></li>
+        <li><a href="/devoir-idc2019/login">Connexion</a></li>
     </ul>
 </nav>
     {% block body %}
