@@ -3,10 +3,13 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <section class="container-fluid">
-        <h1>Bonjour</h1>
-        {% for img in images %}
-            <img src="public/images/{{ img }}" width="500">
-        {% endfor %}
-    </section>
+    <div class="container">
+        <div class="gallery">
+            {% for img in images %}
+                <div class="gallery-item">
+                    <img class="gallery-image" src="public/images/{{ img }}">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
