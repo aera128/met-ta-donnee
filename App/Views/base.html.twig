@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="public/css/skin.css">
+    <link rel="stylesheet" href="http://localhost/devoir-idc2019/public/css/skin.css">
 
     {% block stylesheet %}
     {% endblock %}
 </head>
 <body>
 <nav class="navbar">
+    {{ logged }}
     <span class="brand">Image Cloud</span>
     <ul>
         <li><a class="active" href="/devoir-idc2019/">Accueil</a></li>
-        <li><a href="/devoir-idc2019/login">Connexion</a></li>
+        {% if logged %}
+            <li><a href="/devoir-idc2019/logout">Déconnexion</a></li>
+        {% else %}
+            <li><a href="/devoir-idc2019/login">Connexion</a></li>
+        {% endif %}
     </ul>
 </nav>
     {% block body %}

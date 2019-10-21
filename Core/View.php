@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use App\Utils;
+
 class View
 {
 
@@ -26,6 +28,8 @@ class View
             $loader = new \Twig_Loader_Filesystem(dirname(__DIR__) . '/App/Views');
             $twig = new \Twig_Environment($loader);
         }
+
+        $args["logged"] = Utils::isConnected();
 
         echo $twig->render($template, $args);
     }

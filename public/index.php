@@ -6,6 +6,7 @@ session_start();
  */
 
 use Core\Router\Router;
+use Core\Router\RouterException;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -16,21 +17,30 @@ error_reporting(E_ALL);
 set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
 
+$url = "/";
+if(!empty($_GET["url"])){
+    $url = $_GET["url"];
+}
+
+
+
 /**
  * Router
  */
-$router = new Router($_GET['url']);
+$router = new Router($url);
 
 // Liste des routes disponibles
 $router->get('/', 'Accueil::index');
-$router->get('/images', 'Image::index');
+$router->get('/images/', 'Image::index');
 
 $router->get('/login', 'User::login');
 $router->post('/login', 'User::login');
 
+$router->get('/logout', 'User::logout');
+
 try {
     $router->run();
-} catch (\Core\Router\RouterException $e) {
+} catch (RouterException $e) {
 
 }
 

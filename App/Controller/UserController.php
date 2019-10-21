@@ -36,13 +36,9 @@ class UserController extends Controller
         View::renderTwig('user/login.html.twig');
     }
 
-    public function loginConfirmAction()
-    {
-        var_dump("bonjour");
-    }
-
     public function logout()
     {
-
+        unset($_SESSION['connected']);
+        header("Location: /devoir-idc2019/");
     }
 }
