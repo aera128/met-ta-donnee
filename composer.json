@@ -1,7 +1,8 @@
 {
     "require": {
         "twig/twig": "^2.0",
-        "symfony/apache-pack": "^1.0"
+        "symfony/apache-pack": "^1.0",
+      "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

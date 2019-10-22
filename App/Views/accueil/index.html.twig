@@ -2,14 +2,53 @@
 
 {% block title %}Accueil{% endblock %}
 
+{% block stylesheet %}
+    <style>
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            /* Compensate for excess margin on outer gallery flex items */
+            margin: -1rem -1rem;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .gallery-item {
+            /* Minimum width of 24rem and grow to fit available space */
+            flex: 1 0 24rem;
+            /* Margin value should be half of grid-gap value as margins on flex items don't collapse */
+            margin: 1rem;
+            box-shadow: 0.3rem 0.4rem 0.4rem rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .gallery-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 300ms ease-out;
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.15) rotate(3deg);
+            cursor: pointer;
+        }
+
+    </style>
+{% endblock %}
+
 {% block body %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="gallery">
             {% for img in images %}
-                <div class="gallery-item">
+                <a class="gallery-item" href="/devoir-idc2019/image/{{ img }}">
                     <img class="gallery-image" src="public/images/{{ img }}">
-                </div>
+                </a>
             {% endfor %}
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
 {% endblock %}

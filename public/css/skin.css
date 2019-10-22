@@ -8,7 +8,7 @@ body {
     font-weight: 300;
 }
 
-.navbar{
+.navbar {
     position: sticky;
     top: 0;
     width: 100%;
@@ -16,10 +16,11 @@ body {
     padding: 0;
     overflow: hidden;
     background-color: #333;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    z-index: 9999;
 }
 
-.navbar .brand{
+.navbar .brand {
     display: block;
     text-align: center;
     padding: 14px 16px;
@@ -57,7 +58,7 @@ body {
     padding: 0 2rem 2rem;
 }
 
-.container-fluid{
+.container-fluid {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;

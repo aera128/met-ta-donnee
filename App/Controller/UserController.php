@@ -36,7 +36,7 @@ class UserController extends Controller
         View::renderTwig('user/login.html.twig');
     }
 
-    public function logout()
+    public function logoutAction()
     {
         unset($_SESSION['connected']);
         header("Location: /devoir-idc2019/");
