@@ -2,8 +2,63 @@
 
 {% block title %}Images{% endblock %}
 
+{% block stylesheet %}
+    <style type="text/css">
+        .img-fluid,
+        .jumbotron {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <section class="container-fluid">
-
+        <div class="row mb-2">
+            <div class="col-xl-5 col-lg-7 col-md-8 col-sm-10 col-12 mx-auto">
+                <img src="../public/images/{{ url }}" class="img-fluid">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="jumbotron">
+                    {% for type, values in meta %}
+                        <div class="row">
+                            <div class="col">
+                                {% if values is not iterable %}
+                                    <span class="lead"><strong>{{ type }} :</strong> {{ values }}</span>
+                                {% else %}
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <span class="lead"><strong>{{ type }} :</strong></span>
+                                        <button class="btn btn-outline-success btn-sm rounded-pill my-1 px-5"
+                                                data-toggle="collapse"
+                                                data-target="#meta{{ loop.index }}">show
+                                        </button>
+                                    </div>
+                                    <ul class="list-group list-group-flush collapse" id="meta{{ loop.index }}">
+                                        {% for key, value in values %}
+                                            <li class="list-group-item">
+                                                {% if value is iterable %}
+                                                    {{ key }} :
+                                                    <ul class="list-group list-group-flush">
+                                                        {% for key_bis, value_bis in value %}
+                                                            <li class="list-group-item">
+                                                                {{ key_bis }} : {{ value_bis }}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% else %}
+                                                    {{ key }} : {{ value }}
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </section>
 {% endblock %}

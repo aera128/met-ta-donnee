@@ -4,25 +4,7 @@
 
 {% block stylesheet %}
     <style>
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            /* Compensate for excess margin on outer gallery flex items */
-            margin: -1rem -1rem;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-
-        .gallery-item {
-            /* Minimum width of 24rem and grow to fit available space */
-            flex: 1 0 24rem;
-            /* Margin value should be half of grid-gap value as margins on flex items don't collapse */
-            margin: 1rem;
-            box-shadow: 0.3rem 0.4rem 0.4rem rgba(0, 0, 0, 0.4);
-            overflow: hidden;
-        }
-
-        .gallery-image {
+        .grid-image {
             display: block;
             width: 100%;
             height: 100%;
@@ -30,25 +12,75 @@
             transition: transform 300ms ease-out;
         }
 
-        .gallery-image:hover {
+        .grid-image:hover {
             transform: scale(1.15) rotate(3deg);
             cursor: pointer;
         }
 
+        .grid {
+            margin: 0 auto;
+        }
+
+        .grid-sizer,
+        .grid-item {
+            width: calc(25% - 10px);
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            overflow: hidden;
+        }
+
+        @media (max-width: 992px){
+            .grid-sizer,
+            .grid-item {
+                width: calc(33.333% - 10px);
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 768px){
+            .grid-sizer,
+            .grid-item {
+                width: calc(50% - 10px);
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 576px){
+            .grid-sizer,
+            .grid-item {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 {% endblock %}
 
 {% block body %}
     <div class="container-fluid">
-        <div class="gallery">
-            {% for img in images %}
-                <a class="gallery-item" href="/devoir-idc2019/image/{{ img }}">
-                    <img class="gallery-image" src="public/images/{{ img }}">
-                </a>
-            {% endfor %}
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="grid">
+                    <div class="grid-sizer"></div>
+                    {% for img in images %}
+                        <a class="grid-item" href="/devoir-idc2019/image/{{ img }}">
+                            <img class="grid-image" src="public/images/{{ img }}">
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script>
+        $('.grid').masonry({
+            percentPosition: true,
+            columnWidth: '.grid-sizer',
+            itemSelector: '.grid-item',
+            gutter: 10,
+            stagger: 30,
+        });
+    </script>
 {% endblock %}
