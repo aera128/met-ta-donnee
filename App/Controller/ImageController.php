@@ -14,11 +14,38 @@ class ImageController extends Controller{
 
 //        Windows
         $meta = json_decode(shell_exec("..\\Resources\\exiftool\\windows\\exiftool.exe -json -g2 ..\\public\\images\\" . $url), true);
-        View::renderTwig('images/show.html.twig', array(
-            "url" => $url,
-            "meta" => $meta[0],
-        ));
-        dump($meta[0]);
+        $meta = $meta[0];
+
+        $lat = null;
+        $long = null;
+        if ($meta["Location"]["GPSLatitude"] !== null && $meta["Location"]["GPSLongitude"]){
+            $lat = explode(" ", $meta["Location"]["GPSLatitude"]);
+            $lat= $lat[3];
+            $lat = rtrim($lat, "\"");
+            $lat = (float)$lat;
+
+            $long = explode(" ", $meta["Location"]["GPSLongitude"]);
+            $long= $long[3];
+            $long = rtrim($long, "\"");
+            $long = (float)$long;
+        }
+
+        if ($long !== null && $lat !== null){
+            View::renderTwig('images/show.html.twig', array(
+                "url" => $url,
+                "meta" => $meta,
+                "lat" => $lat,
+                "long" => $long
+            ));
+        }
+        else{
+            View::renderTwig('images/show.html.twig', array(
+                "url" => $url,
+                "meta" => $meta,
+            ));
+        }
+
+//        dump($meta);
     }
 
     public function addAction()
