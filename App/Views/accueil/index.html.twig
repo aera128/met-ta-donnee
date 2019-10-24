@@ -75,12 +75,14 @@
 {% block javascripts %}
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script>
-        $('.grid').masonry({
-            percentPosition: true,
-            columnWidth: '.grid-sizer',
-            itemSelector: '.grid-item',
-            gutter: 10,
-            stagger: 30,
+        $(document).ready(function () {
+            $('.grid').masonry({
+                percentPosition: true,
+                columnWidth: '.grid-sizer',
+                itemSelector: '.grid-item',
+                gutter: 10,
+                stagger: 30,
+            });
         });
     </script>
 {% endblock %}
