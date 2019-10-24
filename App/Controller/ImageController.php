@@ -18,16 +18,18 @@ class ImageController extends Controller{
 
         $lat = null;
         $long = null;
-        if ($meta["Location"]["GPSLatitude"] !== null && $meta["Location"]["GPSLongitude"]){
-            $lat = explode(" ", $meta["Location"]["GPSLatitude"]);
-            $lat= $lat[3];
-            $lat = rtrim($lat, "\"");
-            $lat = (float)$lat;
+        if (isset($meta["Location"])){
+            if ($meta["Location"]["GPSLatitude"] !== null && $meta["Location"]["GPSLongitude"]){
+                $lat = explode(" ", $meta["Location"]["GPSLatitude"]);
+                $lat= $lat[3];
+                $lat = rtrim($lat, "\"");
+                $lat = (float)$lat;
 
-            $long = explode(" ", $meta["Location"]["GPSLongitude"]);
-            $long= $long[3];
-            $long = rtrim($long, "\"");
-            $long = (float)$long;
+                $long = explode(" ", $meta["Location"]["GPSLongitude"]);
+                $long= $long[3];
+                $long = rtrim($long, "\"");
+                $long = (float)$long;
+            }
         }
 
         if ($long !== null && $lat !== null){
