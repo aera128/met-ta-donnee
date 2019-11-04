@@ -23,9 +23,9 @@
         }
 
         .burger {
-            position: absolute;
+            position: fixed;
             top: 15px;
-            right: 15px;
+            left: 15px;
             z-index: 9999;
         }
 
@@ -37,7 +37,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            transition: width 0.3s ease-in;
+            transition: width 0.3s ease-in-out;
             background-color: #000;
             z-index: 8888;
         }
@@ -55,7 +55,7 @@
             top: 50px;
             left: 50px;
             opacity: 0;
-            transform: translateX(100px);
+            transform: translateX(-100px);
             transition: all 0.3s 0.2s ease-out;
         }
 
@@ -79,6 +79,13 @@
             background-color: white;
         }
 
+        body{
+            background-image: url("https://pixabay.com/get/54e5dd40495bb108feda84608229357a1d3fdde25a4c704c722d73d29548c25d/abstract-258339_1920.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: top;
+        }
     </style>
 
     {% block stylesheet %}
