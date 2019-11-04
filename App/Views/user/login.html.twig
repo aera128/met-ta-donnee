@@ -12,47 +12,25 @@
         .form-signin .checkbox {
             font-weight: 400;
         }
-
-        .form-signin .form-control {
-            position: relative;
-            box-sizing: border-box;
-            height: auto;
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .form-signin .form-control:focus {
-            z-index: 2;
-        }
-
-        .form-signin input[type="text"] {
-            margin-bottom: -1px;
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        .form-signin input[type="password"] {
-            margin-bottom: 10px;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
     </style>
 {% endblock %}
 
 {% block body %}
-    <section class="container">
+    <div class="container">
         <form class="form-signin" method="post">
-            <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
-            <label for="username" class="sr-only">Nom d'utlisateur</label>
-            <input type="text" name="username" class="form-control" placeholder="Nom d'utilisateur" required autofocus>
-            <label for="password" class="sr-only">Mot de passe</label>
-            <input type="password" name="password" class="form-control" placeholder="Mot de passe" required>
-            <button class="btn btn-lg btn-primary btn-block rounded-pill" type="submit">Login</button>
+            <h1 class="h1 mb-3 font-weight-normal">Connexion</h1>
+            <label for="username" class="lead">Nom d'utlisateur</label>
+            <input type="text" name="username" class="form-control form-control-lg rounded-0 mb-3"
+                   placeholder="Nom d'utilisateur" required autofocus>
+            <label for="password" class="lead">Mot de passe</label>
+            <input type="password" name="password" class="form-control form-control-lg rounded-0 mb-3"
+                   placeholder="Mot de passe" required>
+            <button class="btn btn-lg btn-dark btn-block rounded-0" type="submit">Login</button>
         </form>
         {#        <form action="/devoir-idc2019/login" method="post">#}
         {#            <input type="text" name="username">#}
         {#            <input type="password" name="password">#}
         {#            <input type="submit" value="valider">#}
         {#        </form>#}
-    </section>
+    </div>
 {% endblock %}

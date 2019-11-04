@@ -6,19 +6,92 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-{#    <link rel="stylesheet" href="http://localhost/devoir-idc2019/public/css/skin.css">#}
+    <link rel="stylesheet" href="http://localhost/devoir-idc2019/public/css/burgersqueeze.css">
+    {#    <link rel="stylesheet" href="http://localhost/devoir-idc2019/public/css/skin.css">#}
+    <style type="text/css">
+        .burger .burger-lines,
+        .burger .burger-lines:after,
+        .burger .burger-lines:before {
+            background-color: black;
+            transition: background-color 0.3s ease-out;
+        }
+
+        .burger.open .burger-lines,
+        .burger.open .burger-lines:after,
+        .burger.open .burger-lines:before {
+            background-color: white;
+        }
+
+        .burger {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 9999;
+        }
+
+        .menu-overlay {
+            width: 0;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: width 0.3s ease-in;
+            background-color: #000;
+            z-index: 8888;
+        }
+
+        .show .menu-overlay {
+            width: 100%;
+            height: 100%;
+            positiion: fixed;
+
+        }
+
+        nav ul {
+            list-style-type: none;
+            position: relative;
+            top: 50px;
+            left: 50px;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s 0.2s ease-out;
+        }
+
+        .show nav ul {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-size: 4rem;
+            font-weight: 100;
+            font-family: SansSerif sans-serif;
+            transition: color 0.2s ease-out;
+            transition: background-color 0.2s ease-out;
+        }
+
+        nav a:hover {
+            color: black;
+            background-color: white;
+        }
+
+    </style>
+
     {% block stylesheet %}
     {% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2 sticky-top">
-    <a class="navbar-brand" href="/devoir-idc2019/">Image Cloud</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<div class="burger burger-squeeze" style="font-size: 15px">
+    <div class="burger-lines"></div>
+</div>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
+<div class="menu-overlay">
+    <nav>
+        <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link" href="/devoir-idc2019/">Accueil</a>
             </li>
@@ -32,14 +105,17 @@
                 </li>
             {% endif %}
         </ul>
-    </div>
-</nav>
+    </nav>
 
-{% block body %}
-{% endblock %}
+</div><!-- end overlay -->
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+<section class="body mt-5">
+    {% block body %}
+    {% endblock %}
+</section>
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -47,6 +123,42 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $('.body').css('opacity', '0');
+
+    $(document).ready(function () {
+        $('.body').animate({
+            opacity: 1,
+        }, 500);
+    });
+
+    $('.burger').on('click', function () {
+        $('body').toggleClass('show');
+        $('.burger').toggleClass('open');
+    });
+
+    $('a[href]').on('click', function () {
+        performPageTransition(this.getAttribute('href'));
+        return false;
+    });
+
+    function performPageTransition(newUrl) {
+        if ($('.burger').hasClass('open')) {
+            $('.body').css('opacity', '0');
+            $('body').removeClass('show');
+            $('.burger').removeClass('open');
+        } else {
+            $('.body').animate({
+                opacity: 0,
+            }, 300);
+        }
+        setTimeout(function () {
+            window.location = newUrl;
+        }, 400);
+    }
+
+</script>
 {% block javascripts %}
 {% endblock %}
 </body>

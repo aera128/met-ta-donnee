@@ -10,10 +10,12 @@ class ImageController extends Controller{
 
     public function showAction($url){
 //        Linux
-//        $meta = json_decode(shell_exec("exiftool -json -g2 images/" . $url), true);
+        $meta = json_decode(shell_exec("exiftool -json -g2 images/" . $url), true);
 
 //        Windows
-        $meta = json_decode(shell_exec("..\\Resources\\exiftool\\windows\\exiftool.exe -json -g2 ..\\public\\images\\" . $url), true);
+//        $meta = json_decode(shell_exec("..\\Resources\\exiftool\\windows\\exiftool.exe -json -g2 ..\\public\\images\\" . $url), true);
+
+        
         $meta = $meta[0];
 
         $lat = null;
