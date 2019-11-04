@@ -25,7 +25,7 @@
         .burger {
             position: fixed;
             top: 15px;
-            left: 15px;
+            right: 15px;
             z-index: 9999;
         }
 
@@ -67,7 +67,6 @@
         nav a {
             text-decoration: none;
             color: white;
-            font-size: 5vw;
             font-weight: 100;
             font-family: SansSerif sans-serif;
             transition: color 0.2s ease-out;
@@ -100,14 +99,14 @@
     <nav>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="/devoir-idc2019/">Accueil</a>
+                <a class="h1 nav-link" href="/devoir-idc2019/">Accueil</a>
             </li>
             {% if logged %}
-                <li class="nav-item">
+                <li class="h1 nav-item">
                     <a class="nav-link" href="/devoir-idc2019/logout">Déconnexion</a>
                 </li>
             {% else %}
-                <li class="nav-item">
+                <li class="h1 nav-item">
                     <a class="nav-link" href="/devoir-idc2019/login">Connexion</a>
                 </li>
             {% endif %}
