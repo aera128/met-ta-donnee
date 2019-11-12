@@ -209,7 +209,7 @@
             <li class="list-group-item">
                 <a class="" href="/devoir-idc2019/"><span>Accueil</span></a>
             </li>
-            {% if logged %}
+            {% if user %}
                 <li class="list-group-item">
                     <a class="" href="/devoir-idc2019/logout"><span>Déconnexion</span></a>
                 </li>
@@ -244,30 +244,31 @@
         $('.burger').toggleClass('open');
     });
 
-    function bindAnimationUnload(){
+    function bindAnimationUnload() {
         $('a[href]').on('click', function () {
             performPageTransition(this.getAttribute('href'));
             return false;
         });
     }
+
     function performPageTransition(newUrl) {
         if ($('body').hasClass('show')) {
             $('body').removeClass('show');
             $('.burger').removeClass('open');
             setTimeout(function () {
                 $('.body').fadeOut(300);
-            },300);
+            }, 300);
             setTimeout(function () {
                 window.location = newUrl;
-            },600);
-        }
-        else {
+            }, 600);
+        } else {
             $('.body').fadeOut(300);
             setTimeout(function () {
                 window.location = newUrl;
-            },300);
+            }, 300);
         }
     }
+
     bindAnimationUnload();
 </script>
 {% block javascripts %}

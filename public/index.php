@@ -7,9 +7,6 @@ session_start();
  * Autoloader Composer
  */
 
-use Assetic\Asset\AssetCollection;
-use Assetic\Asset\GlobAsset;
-use Assetic\AssetManager;
 use Core\Router\Router;
 use Core\Router\RouterException;
 
@@ -38,9 +35,10 @@ $router->get('/', 'Accueil::index');
 $router->get('/image/:url', 'Image::show');
 
 $router->get('/login', 'User::login');
-$router->post('/login', 'User::login');
+$router->post('/ajax/login', 'User::loginAjax');
 
 $router->get('/logout', 'User::logout');
+//$router->get('/createdb', 'User::createdatabase');
 try {
     $router->run();
 } catch (RouterException $e) {

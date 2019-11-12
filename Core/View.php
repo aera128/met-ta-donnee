@@ -29,7 +29,8 @@ class View
             $twig = new \Twig_Environment($loader);
         }
 
-        $args["logged"] = Utils::isConnected();
+        $auth = new AuthManager();
+        $args["user"] = $auth->user();
 
         echo $twig->render($template, $args);
     }

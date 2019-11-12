@@ -16,21 +16,60 @@
 {% endblock %}
 
 {% block body %}
-    <div class="d-flex w-100 align-items-center justify-content-center" style="height: 100vh">
-        <form class="form-signin" method="post">
+    <form id="formLogin" class="d-flex w-100 align-items-center justify-content-center" style="height: 100vh">
+        <div class="form-signin">
+            <div id="message"></div>
             <h1 class="h1 mb-3 font-weight-normal">Connexion</h1>
             <label for="username" class="lead">Nom d'utlisateur</label>
-            <input type="text" name="username" class="form-control form-control-lg rounded-0 mb-3"
+            <input type="text" id="username" class="form-control form-control-lg rounded-0 mb-3"
                    placeholder="Nom d'utilisateur" required autofocus>
             <label for="password" class="lead">Mot de passe</label>
-            <input type="password" name="password" class="form-control form-control-lg rounded-0 mb-3"
+            <input type="password" id="password" class="form-control form-control-lg rounded-0 mb-3"
                    placeholder="Mot de passe" required>
-            <button class="btn btn-lg btn-dark btn-block rounded-0" type="submit">Login</button>
-        </form>
-        {#        <form action="/devoir-idc2019/login" method="post">#}
-        {#            <input type="text" name="username">#}
-        {#            <input type="password" name="password">#}
-        {#            <input type="submit" value="valider">#}
-        {#        </form>#}
-    </div>
+            <input class="btn btn-lg btn-dark btn-block rounded-0" type="submit" id="submit" value="Se connecter">
+        </div>
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function connect(){
+            $.ajax({
+                url : '/devoir-idc2019/ajax/login', // La ressource ciblée
+                type : 'POST', // Le type de la requête HTTP.
+                data : {
+                    username: $('#username').val(),
+                    password: $('#password').val(),
+                },
+                beforeSend: function(){
+                    $('#message').html('');
+                },
+                success: function (data) {
+                    if (data === 'error'){
+                        let message = $('<div class="alert alert-danger rounded-0">Identifiant ou mot de passe incorrect</div>');
+                        $('#message').html(message);
+                    }
+                    else {
+                        let message = $('<div class="alert alert-success rounded-0">Connexion réussie. Redirection...</div>');
+                        $('#message').html(message);
+                        setTimeout(function () {
+                            $('.body').fadeOut(500);
+                        },300);
+                        setTimeout(function () {
+                            window.location = '/devoir-idc2019/';
+                        },800);
+                    }
+                }
+            });
+        }
+        $(document).ready(function(){
+            $("#submit").click(function(){
+                connect();
+            });
+            $('#formLogin').submit(function(e) {
+                e.preventDefault();
+                connect();
+            })
+        });
+    </script>
 {% endblock %}
