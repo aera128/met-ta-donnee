@@ -7,6 +7,9 @@ session_start();
  * Autoloader Composer
  */
 
+use Assetic\Asset\AssetCollection;
+use Assetic\Asset\GlobAsset;
+use Assetic\AssetManager;
 use Core\Router\Router;
 use Core\Router\RouterException;
 
@@ -20,10 +23,9 @@ set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
 
 $url = "/";
-if(!empty($_GET["url"])){
+if (!empty($_GET["url"])) {
     $url = $_GET["url"];
 }
-
 
 
 /**
@@ -39,7 +41,6 @@ $router->get('/login', 'User::login');
 $router->post('/login', 'User::login');
 
 $router->get('/logout', 'User::logout');
-
 try {
     $router->run();
 } catch (RouterException $e) {

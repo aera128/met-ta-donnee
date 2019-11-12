@@ -7,82 +7,105 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-	<style type="text/css">
-		.burger {
-		  height: 3em;
-		  width: 3em;
-		  position: relative;
-		  font-size: 12px;
-		  cursor: pointer;
-		  -webkit-transition: .2s all;
-		  -o-transition: .2s all;
-		  transition: .2s all;
-		  -webkit-tap-highlight-color: transparent; }
-		  .burger .burger-lines:after {
-			left: 0;
-			top: -1em; }
-		  .burger .burger-lines:before {
-			left: 1em;
-			top: 1em; }
-		  .burger:after {
-			content: '';
-			display: block;
-			position: absolute;
-			height: 150%;
-			width: 150%;
-			top: -25%;
-			left: -25%; }
-		  .burger .burger-lines {
-			top: 50%;
-			margin-top: -0.125em; }
-			.burger .burger-lines, .burger .burger-lines:after, .burger .burger-lines:before {
-			  pointer-events: none;
-			  display: block;
-			  content: '';
-			  width: 100%;
-			  border-radius: 0.25em;
-			  background-color: white;
-			  height: 0.25em;
-			  position: absolute;
-			  -webkit-transform: rotate(0);
-				  -ms-transform: rotate(0);
-					  transform: rotate(0); }
-			.burger .burger-lines:after {
-			  left: 0;
-			  top: -1em; }
-			.burger .burger-lines:before {
-			  left: 1em;
-			  top: 1em; }
-		.burger.burger-squeeze .burger-lines, .burger.burger-squeeze .burger-lines:after, .burger.burger-squeeze .burger-lines:before {
-		  -webkit-transition: .2s top .2s, .1s left, .2s transform, .4s background-color .2s;
-		  -o-transition: .2s top .2s, .1s left, .2s transform, .4s background-color .2s;
-		  transition: .2s top .2s, .1s left, .2s transform, .4s background-color .2s; }
+    <style type="text/css">
+        .burger {
+            height: 3em;
+            width: 3em;
+            position: relative;
+            font-size: 12px;
+            cursor: pointer;
+            -webkit-transition: .2s all;
+            -o-transition: .2s all;
+            transition: .2s all;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-		.burger.burger-squeeze .burger-lines:after, .burger.burger-squeeze .burger-lines:before {
-		  width: 2em; }
+        .burger .burger-lines:after {
+            left: 0;
+            top: -1em;
+        }
 
-		.burger.burger-squeeze.open .burger-lines, .burger.burger-squeeze.open .burger-lines:after, .burger.burger-squeeze.open .burger-lines:before {
-		  -webkit-transition: .2s background-color, .2s top, .2s left, .2s transform .15s;
-		  -o-transition: .2s background-color, .2s top, .2s left, .2s transform .15s;
-		  transition: .2s background-color, .2s top, .2s left, .2s transform .15s; }
+        .burger .burger-lines:before {
+            left: 1em;
+            top: 1em;
+        }
 
-		.burger.burger-squeeze.open .burger-lines {
-		  background-color: transparent; }
+        .burger:after {
+            content: '';
+            display: block;
+            position: absolute;
+            height: 150%;
+            width: 150%;
+            top: -25%;
+            left: -25%;
+        }
 
-		.burger.burger-squeeze.open .burger-lines:before, .burger.burger-squeeze.open .burger-lines:after {
-		  left: 0.5em;
-		  top: 0px; }
+        .burger .burger-lines {
+            top: 50%;
+            margin-top: -0.125em;
+        }
 
-		.burger.burger-squeeze.open .burger-lines:before {
-		  -webkit-transform: rotate(-45deg);
-			  -ms-transform: rotate(-45deg);
-				  transform: rotate(-45deg); }
+        .burger .burger-lines, .burger .burger-lines:after, .burger .burger-lines:before {
+            pointer-events: none;
+            display: block;
+            content: '';
+            width: 100%;
+            border-radius: 0.25em;
+            background-color: white;
+            height: 0.25em;
+            position: absolute;
+            -webkit-transform: rotate(0);
+            -ms-transform: rotate(0);
+            transform: rotate(0);
+        }
 
-		.burger.burger-squeeze.open .burger-lines:after {
-		  -webkit-transform: rotate(45deg);
-			  -ms-transform: rotate(45deg);
-				  transform: rotate(45deg); }
-	</style>
+        .burger .burger-lines:after {
+            left: 0;
+            top: -1em;
+        }
+
+        .burger .burger-lines:before {
+            left: 1em;
+            top: 1em;
+        }
+
+        .burger.burger-squeeze .burger-lines, .burger.burger-squeeze .burger-lines:after, .burger.burger-squeeze .burger-lines:before {
+            -webkit-transition: .2s top .2s, .1s left, .2s transform, .4s background-color .2s;
+            -o-transition: .2s top .2s, .1s left, .2s transform, .4s background-color .2s;
+            transition: .2s top .2s, .1s left, .2s transform, .4s background-color .2s;
+        }
+
+        .burger.burger-squeeze .burger-lines:after, .burger.burger-squeeze .burger-lines:before {
+            width: 2em;
+        }
+
+        .burger.burger-squeeze.open .burger-lines, .burger.burger-squeeze.open .burger-lines:after, .burger.burger-squeeze.open .burger-lines:before {
+            -webkit-transition: .2s background-color, .2s top, .2s left, .2s transform .15s;
+            -o-transition: .2s background-color, .2s top, .2s left, .2s transform .15s;
+            transition: .2s background-color, .2s top, .2s left, .2s transform .15s;
+        }
+
+        .burger.burger-squeeze.open .burger-lines {
+            background-color: transparent;
+        }
+
+        .burger.burger-squeeze.open .burger-lines:before, .burger.burger-squeeze.open .burger-lines:after {
+            left: 0.5em;
+            top: 0px;
+        }
+
+        .burger.burger-squeeze.open .burger-lines:before {
+            -webkit-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+        }
+
+        .burger.burger-squeeze.open .burger-lines:after {
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+    </style>
 
     <style type="text/css">
         .burger .burger-lines,
@@ -138,80 +161,70 @@
             transform: translateY(0);
         }
 
-        .menu-overlay .list-group-item{
-          background: none;
-          padding-top: 50px;
-          padding-bottom: 50px;
-          text-align: center;
+        .menu-overlay .list-group-item {
+            background: none;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            text-align: center;
         }
 
-        .menu-overlay a{
-          transition: 0.3s ease;
-          color: #ffffff;
-          font-size: 3rem;
-          font-weight: bold;
-          text-decoration: none;
-          border-top: 1px solid #000;
-          border-bottom: 1px solid #000;
-          padding: 20px 0;
-          margin: 0 20px;
+        .menu-overlay a {
+            transition: 0.3s ease;
+            color: #ffffff;
+            font-size: 3rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            padding: 20px 0;
+            margin: 0 20px;
         }
 
-        .menu-overlay a:hover{
-          border-top: 1px solid #ffffff;
-          border-bottom: 1px solid #ffffff;
-          padding: 6px 0;
+        .menu-overlay a:hover {
+            border-top: 1px solid #ffffff;
+            border-bottom: 1px solid #ffffff;
+            padding: 6px 0;
         }
 
-        body{
+        body {
             background-image: url("https://blablalinux.files.wordpress.com/2017/01/ubuntu-default-greyscale-wallpaper.png");
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
             background-position: top;
         }
-        .transition-fade {
-  transition: 0.4s;
-  opacity: 1;
-}
-
-html.is-animating .transition-fade {
-  opacity: 0;
-}
     </style>
 
     {% block stylesheet %}
     {% endblock %}
 </head>
 <body>
-    <div class="burger burger-squeeze" style="font-size: 15px">
-        <div class="burger-lines"></div>
-    </div>
+<div class="burger burger-squeeze" style="font-size: 15px">
+    <div class="burger-lines"></div>
+</div>
 
-    <nav class="menu-overlay">
-      <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+<nav class="menu-overlay">
+    <div class="d-flex w-100 h-100 align-items-center justify-content-center">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <a class="" href="/devoir-idc2019/"><span>Accueil</span></a>
-          </li>
-          {% if logged %}
-          <li class="list-group-item">
-            <a class="" href="/devoir-idc2019/logout"><span>Déconnexion</span></a>
-          </li>
-          {% else %}
-          <li class="list-group-item">
-            <a class="" href="/devoir-idc2019/login"><span>Connexion</spab></a>
+            <li class="list-group-item">
+                <a class="" href="/devoir-idc2019/"><span>Accueil</span></a>
             </li>
+            {% if logged %}
+                <li class="list-group-item">
+                    <a class="" href="/devoir-idc2019/logout"><span>Déconnexion</span></a>
+                </li>
+            {% else %}
+                <li class="list-group-item">
+                    <a class="" href="/devoir-idc2019/login"><span>Connexion</spab></a>
+                </li>
             {% endif %}
-          </ul>
-        </div>
-    </nav><!-- end overlay -->
-    <main id="swup" class="transition-fade">
-    <section class="body mt-5">
-        {% block body %}
-        {% endblock %}
-    </section>
-</main>
+        </ul>
+    </div>
+</nav><!-- end overlay -->
+<section class="body">
+    {% block body %}
+    {% endblock %}
+</section>
 <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous"></script>
@@ -221,20 +234,41 @@ html.is-animating .transition-fade {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script src="https://unpkg.com/swup@latest/dist/swup.min.js"></script>
-
 <script type="text/javascript">
-    const swup = new Swup(); // only this line when included with script tag
+    $('.body').css('opacity', 0);
+    $('.body').animate({
+        opacity: 1,
+    }, 500);
     $('.burger').on('click', function () {
         $('body').toggleClass('show');
         $('.burger').toggleClass('open');
     });
 
-    swup.on('willReplaceContent', function() {
-      $('body').removeClass('show');
-      $('.burger').removeClass('open');
-    });
-
+    function bindAnimationUnload(){
+        $('a[href]').on('click', function () {
+            performPageTransition(this.getAttribute('href'));
+            return false;
+        });
+    }
+    function performPageTransition(newUrl) {
+        if ($('body').hasClass('show')) {
+            $('body').removeClass('show');
+            $('.burger').removeClass('open');
+            setTimeout(function () {
+                $('.body').fadeOut(300);
+            },300);
+            setTimeout(function () {
+                window.location = newUrl;
+            },600);
+        }
+        else {
+            $('.body').fadeOut(300);
+            setTimeout(function () {
+                window.location = newUrl;
+            },300);
+        }
+    }
+    bindAnimationUnload();
 </script>
 {% block javascripts %}
 {% endblock %}
