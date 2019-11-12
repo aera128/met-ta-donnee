@@ -6,8 +6,7 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    {#    <link rel="stylesheet" href="http://localhost/devoir-idc2019/public/css/skin.css">#}
-	
+
 	<style type="text/css">
 		.burger {
 		  height: 3em;
@@ -84,7 +83,7 @@
 			  -ms-transform: rotate(45deg);
 				  transform: rotate(45deg); }
 	</style>
-	
+
     <style type="text/css">
         .burger .burger-lines,
         .burger .burger-lines:after,
@@ -126,77 +125,93 @@
 
         }
 
-        nav ul {
+        .menu-overlay ul {
             list-style-type: none;
             position: relative;
-            top: 50px;
-            left: 50px;
             opacity: 0;
-            transform: translateX(-100px);
-            transition: all 0.3s 0.2s ease-out;
+            transform: translateY(-100px);
+            transition: all 0.4s 0.3s ease-out;
         }
 
-        .show nav ul {
+        .show .menu-overlay ul {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateY(0);
         }
 
-        nav a {
-            text-decoration: none;
-            color: white;
-            font-weight: 100;
-            font-family: SansSerif sans-serif;
-            transition: color 0.2s ease-out;
-            transition: background-color 0.2s ease-out;
+        .menu-overlay .list-group-item{
+          background: none;
+          padding-top: 50px;
+          padding-bottom: 50px;
+          text-align: center;
         }
 
-        nav a:hover {
-            color: black;
-            background-color: white;
+        .menu-overlay a{
+          transition: 0.3s ease;
+          color: #ffffff;
+          font-size: 3rem;
+          font-weight: bold;
+          text-decoration: none;
+          border-top: 1px solid #000;
+          border-bottom: 1px solid #000;
+          padding: 20px 0;
+          margin: 0 20px;
+        }
+
+        .menu-overlay a:hover{
+          border-top: 1px solid #ffffff;
+          border-bottom: 1px solid #ffffff;
+          padding: 6px 0;
         }
 
         body{
-            background-image: url("https://pixabay.com/get/54e5dd40495bb108feda84608229357a1d3fdde25a4c704c722d73d29548c25d/abstract-258339_1920.png");
+            background-image: url("https://blablalinux.files.wordpress.com/2017/01/ubuntu-default-greyscale-wallpaper.png");
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
             background-position: top;
         }
+        .transition-fade {
+  transition: 0.4s;
+  opacity: 1;
+}
+
+html.is-animating .transition-fade {
+  opacity: 0;
+}
     </style>
 
     {% block stylesheet %}
     {% endblock %}
 </head>
 <body>
-<div class="burger burger-squeeze" style="font-size: 15px">
-    <div class="burger-lines"></div>
-</div>
+    <div class="burger burger-squeeze" style="font-size: 15px">
+        <div class="burger-lines"></div>
+    </div>
 
-<div class="menu-overlay">
-    <nav>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="h1 nav-link" href="/devoir-idc2019/">Accueil</a>
+    <nav class="menu-overlay">
+      <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <a class="" href="/devoir-idc2019/"><span>Accueil</span></a>
+          </li>
+          {% if logged %}
+          <li class="list-group-item">
+            <a class="" href="/devoir-idc2019/logout"><span>Déconnexion</span></a>
+          </li>
+          {% else %}
+          <li class="list-group-item">
+            <a class="" href="/devoir-idc2019/login"><span>Connexion</spab></a>
             </li>
-            {% if logged %}
-                <li class="h1 nav-item">
-                    <a class="nav-link" href="/devoir-idc2019/logout">Déconnexion</a>
-                </li>
-            {% else %}
-                <li class="h1 nav-item">
-                    <a class="nav-link" href="/devoir-idc2019/login">Connexion</a>
-                </li>
             {% endif %}
-        </ul>
-    </nav>
-
-</div><!-- end overlay -->
-
-<section class="body mt-5">
-    {% block body %}
-    {% endblock %}
-</section>
-
+          </ul>
+        </div>
+    </nav><!-- end overlay -->
+    <main id="swup" class="transition-fade">
+    <section class="body mt-5">
+        {% block body %}
+        {% endblock %}
+    </section>
+</main>
 <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous"></script>
@@ -206,40 +221,19 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script src="https://unpkg.com/swup@latest/dist/swup.min.js"></script>
 
 <script type="text/javascript">
-    $('.body').css('opacity', '0');
-
-    $(document).ready(function () {
-        $('.body').animate({
-            opacity: 1,
-        }, 500);
-    });
-
+    const swup = new Swup(); // only this line when included with script tag
     $('.burger').on('click', function () {
         $('body').toggleClass('show');
         $('.burger').toggleClass('open');
     });
 
-    $('a[href]').on('click', function () {
-        performPageTransition(this.getAttribute('href'));
-        return false;
+    swup.on('willReplaceContent', function() {
+      $('body').removeClass('show');
+      $('.burger').removeClass('open');
     });
-
-    function performPageTransition(newUrl) {
-        if ($('.burger').hasClass('open')) {
-            $('.body').css('opacity', '0');
-            $('body').removeClass('show');
-            $('.burger').removeClass('open');
-        } else {
-            $('.body').animate({
-                opacity: 0,
-            }, 300);
-        }
-        setTimeout(function () {
-            window.location = newUrl;
-        }, 400);
-    }
 
 </script>
 {% block javascripts %}

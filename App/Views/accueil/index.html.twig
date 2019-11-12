@@ -64,11 +64,6 @@
             <div class="col-md-10 mx-auto">
                 <div class="grid">
                     <div class="grid-sizer"></div>
-                    {% for img in images %}
-                        <a class="grid-item" href="/devoir-idc2019/image/{{ img }}">
-                            <img class="grid-image" src="public/images/{{ img }}">
-                        </a>
-                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -78,15 +73,31 @@
 {% block javascripts %}
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('.grid').masonry({
-                percentPosition: true,
-                columnWidth: '.grid-sizer',
-                itemSelector: '.grid-item',
-                gutter: 10,
-                stagger: 30,
-            });
-        });
+    function init() {
+      var grid = $('.grid').masonry({
+          percentPosition: true,
+          columnWidth: '.grid-sizer',
+          itemSelector: '.grid-item',
+          gutter: 10,
+          stagger: 30,
+      });
+
+      {% for img in images %}
+      var items{{loop.index}} = $('<a class="grid-item"'+
+      'href="/devoir-idc2019/image/{{ img }}">'+
+      '<img class="grid-image" src="public/images/{{ img }}">'+
+      '</a>');
+      setTimeout(function () {
+        grid.append( items{{loop.index}} ).masonry( 'appended', items{{loop.index}} );
+        delete items{{loop.index}};
+        grid.masonry();
+      }, 50*{{loop.index}});
+      {% endfor %}}
+}
+
+init();
+swup.on('contentReplaced', init);
+
     </script>
 
 {% endblock %}
