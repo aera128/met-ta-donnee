@@ -191,7 +191,14 @@
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
-            background-position: top;
+            background-position: center;
+        }
+        .badge-connect{
+            position: fixed;
+            left: 5px;
+            top: 5px;
+            font-size: small;
+            z-index: 5000;
         }
     </style>
 
@@ -202,6 +209,9 @@
 <div class="burger burger-squeeze" style="font-size: 15px">
     <div class="burger-lines"></div>
 </div>
+{% if user %}
+    <span class="badge-connect">Connecté en tant que {{ user.username }}</span>
+{% endif %}
 
 <nav class="menu-overlay">
     <div class="d-flex w-100 h-100 align-items-center justify-content-center">

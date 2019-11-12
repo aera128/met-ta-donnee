@@ -22,7 +22,7 @@ class AuthManager
         ));
     }
 
-    public function user(): ?User
+    public function user()
     {
         if (session_status() === PHP_SESSION_NONE){
             session_start();
@@ -36,7 +36,7 @@ class AuthManager
         return $user;
     }
 
-    public function login($username, $password): ?User
+    public function login($username, $password)
     {
         if ($username === null || $password === null) {
             return null;
