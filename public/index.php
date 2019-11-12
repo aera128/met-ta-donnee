@@ -1,4 +1,6 @@
 <?php
+putenv('HTTPS_PROXY=https://proxy.unicaen.fr:3128');
+
 session_start();
 
 /**
@@ -43,4 +45,3 @@ try {
 } catch (RouterException $e) {
 
 }
-
