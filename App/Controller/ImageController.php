@@ -2,18 +2,35 @@
 
 namespace App\Controller;
 
+use App\Models\User;
 use App\Utils;
+use Core\AuthManager;
 use Core\Controller;
+use Core\Request;
+use Core\Response;
 use Core\View;
 
 class ImageController extends Controller{
 
+    public $auth;
+
+    /**
+     * ImageController constructor.
+     * @param Request $request
+     * @param Response $response
+     */
+    public function __construct(Request $request, Response $response)
+    {
+        parent::__construct($request, $response);
+        $this->auth = new AuthManager();
+    }
+
     public function showAction($url){
 //        Linux
-        $meta = json_decode(shell_exec("exiftool -json -g2 images/" . $url), true);
+//        $meta = json_decode(shell_exec("exiftool -json -g2 images/" . $url), true);
 
 //        Windows
-//        $meta = json_decode(shell_exec("..\\Resources\\exiftool\\windows\\exiftool.exe -json -g2 ..\\public\\images\\" . $url), true);
+        $meta = json_decode(shell_exec("..\\Resources\\exiftool\\windows\\exiftool.exe -json -g2 ..\\public\\images\\" . $url), true);
 
         
         $meta = $meta[0];
@@ -54,7 +71,9 @@ class ImageController extends Controller{
 
     public function addAction()
     {
-        Utils::connected();
+        if ($this->auth->user() === null){
+            header('Location: /devoir-idc2019/login');
+        }
         View::renderTwig('images/add.html.twig');
     }
 }

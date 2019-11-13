@@ -1,16 +1,122 @@
 {% extends "base.html.twig" %}
 
+{% block title %}Ajouter une image{% endblock %}
+
+{% block stylesheet %}
+    <style type="text/css">
+        @media only screen and (max-width: 760px) {
+            .dropfile {
+                display: none !important;
+            }
+        }
+
+
+        .dropfile {
+            width: 100%;
+            height: 300px;
+            padding: 15px;
+            border-style: dashed;
+            border-color: #000;
+            border-width: 1px;
+            background-color: #ffffff;
+            color: #000;
+            transition: all 0.3s ease-out;
+        }
+
+        .dropfile.active {
+            background-color: #ccc;
+        }
+
+        label:hover{
+            cursor: pointer;
+        }
+        input[type="file"] {
+            display: none;
+        }
+
+    </style>
+{% endblock %}
+
 {% block body %}
-    <div class="container">
-        <div class="gallery">
-            {% for img in images %}
-                <div class="gallery-item">
-                    <img class="gallery-image" src="public/images/{{ img }}">
-                </div>
-            {% endfor %}
+    <div class="container-fluid pt-5">
+        <h1 class="text-center">Ajouter une image</h1>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col-md-5 mx-auto">
+                <div class="dropfile d-flex align-items-center justify-content-center"></div>
+                <label class="btn btn-outline-dark rounded-0 float-right my-3"> Ajouter une image
+                    <input type="file" id="inputImage">
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 mx-auto" id="preview">
+            </div>
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
+    <script type="text/javascript">
+        function makeForm(files) {
+            let file = files[0];
+            let html;
+            if (options.whitelist.indexOf(file.type) !== -1) {
+                let url = URL.createObjectURL(file);
+                html = $('<img>');
+                html.attr('src', url);
+                html.addClass('w-100 img-thumbnail shadow');
+            } else {
+                html = $('<div class="alert alert-danger rounded-0">Fichier invalide</div>')
+            }
+            $('#preview').html(html);
+        }
+
+        var options = {
+            message: "Déposez votre image ici",
+            whitelist: [
+                "image/png",
+                "image/jpeg",
+                "image/gif",
+            ]
+        };
+
+        $.fn.dropfile = function (args) {
+            if (args) $.extend(options, args);
+            this.each(function () {
+                $(this).html(
+                    $('<span>')
+                        .addClass('lead')
+                        .append(options.message)
+                );
+
+                $(this).bind({
+                    dragenter: function (e) {
+                        e.preventDefault();
+                    },
+                    dragover: function (e) {
+                        e.preventDefault();
+                        $(this).addClass('active');
+                    },
+                    dragleave: function (e) {
+                        e.preventDefault();
+                        $(this).removeClass('active');
+                    },
+                });
+
+                this.addEventListener('drop', function (e) {
+                    e.preventDefault();
+                    $(this).removeClass('active');
+
+                    let files = e.dataTransfer.files;
+                    makeForm(files);
+                }, false);
+            });
+        };
+
+        $('#inputImage').change(function (e) {
+           makeForm(this.files)
+        });
+        $('.dropfile').dropfile();
+    </script>
 {% endblock %}

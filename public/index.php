@@ -32,6 +32,8 @@ $router = new Router($url);
 
 // Liste des routes disponibles
 $router->get('/', 'Accueil::index');
+
+$router->get('/image/add', 'Image::add');
 $router->get('/image/:url', 'Image::show');
 
 $router->get('/login', 'User::login');

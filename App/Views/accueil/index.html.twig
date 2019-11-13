@@ -52,7 +52,6 @@
                 margin-bottom: 10px;
             }
         }
-
     </style>
 {% endblock %}
 
@@ -60,6 +59,13 @@
     <div class="container-fluid pt-5">
         <h1 class="text-center">Accueil</h1>
         <hr class="my-4">
+        {% if user %}
+            <div class="row mb-4">
+                <div class="col-md-10 mx-auto">
+                    <a class="btn btn-outline-dark rounded-0 float-right" href="/devoir-idc2019/image/add">Ajouter une image</a>
+                </div>
+            </div>
+        {% endif %}
         <div class="row">
             <div class="col-md-10 mx-auto">
                 <div class="grid">
@@ -100,6 +106,7 @@
             }, 50 *{{ loop.index }});
             {% endfor %}
         }
+
         init();
     </script>
 
