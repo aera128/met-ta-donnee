@@ -35,6 +35,7 @@ $router->get('/', 'Accueil::index');
 
 $router->get('/image/add', 'Image::add');
 $router->get('/image/:url', 'Image::show');
+$router->post('/ajax/image-pending', 'Image::pending');
 
 $router->get('/login', 'User::login');
 $router->post('/ajax/login', 'User::loginAjax');

@@ -27,9 +27,10 @@
             background-color: #ccc;
         }
 
-        label:hover{
+        label:hover {
             cursor: pointer;
         }
+
         input[type="file"] {
             display: none;
         }
@@ -38,7 +39,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid pt-5">
+    <form class="container-fluid pt-5">
         <h1 class="text-center">Ajouter une image</h1>
         <hr class="my-4">
         <div class="row">
@@ -53,11 +54,19 @@
             <div class="col-md-5 mx-auto" id="preview">
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col text-center">
+                <input type="submit" class="btn btn-outline-dark btn-lg rounded-0 mb-3" value="Continuer">
+            </div>
+        </div>
+    </form>
+    <div id="result"></div>
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript">
+        var file_to_upload = null;
+
         function makeForm(files) {
             let file = files[0];
             let html;
@@ -65,9 +74,11 @@
                 let url = URL.createObjectURL(file);
                 html = $('<img>');
                 html.attr('src', url);
-                html.addClass('w-100 img-thumbnail shadow');
+                html.addClass('w-100 img-thumbnail shadow mb-3');
+                file_to_upload = file;
             } else {
-                html = $('<div class="alert alert-danger rounded-0">Fichier invalide</div>')
+                html = $('<div class="alert alert-danger rounded-0 mb-3">Fichier invalide</div>');
+                file_to_upload = null;
             }
             $('#preview').html(html);
         }
@@ -115,8 +126,30 @@
         };
 
         $('#inputImage').change(function (e) {
-           makeForm(this.files)
+            makeForm(this.files)
         });
         $('.dropfile').dropfile();
+
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            if (file_to_upload !== null) {
+                let formData = new FormData();
+                formData.append('image', file_to_upload);
+
+                let xhr = new XMLHttpRequest();
+                xhr.open('POST', '/devoir-idc2019/ajax/image-pending');
+                xhr.file = file_to_upload;
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        $('#result').html(xhr.responseText);
+                    }
+                };
+                xhr.send(formData);
+
+            } else {
+                let html = $('<div class="alert alert-danger rounded-0 mb-3">Fichier invalide ou inexistant</div>');
+                $('#preview').html(html);
+            }
+        });
     </script>
 {% endblock %}

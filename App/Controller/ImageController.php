@@ -76,4 +76,11 @@ class ImageController extends Controller{
         }
         View::renderTwig('images/add.html.twig');
     }
+
+    public function pendingAction(){
+        dump($_FILES);
+        $image = $_FILES["image"];
+        $meta = json_decode(shell_exec("..\\Resources\\exiftool\\windows\\exiftool.exe -json -g1 " . $image['tmp_name']), true);
+        dump($meta);
+    }
 }
