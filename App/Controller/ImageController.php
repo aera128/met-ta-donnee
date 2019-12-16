@@ -8,6 +8,13 @@ use Core\Controller;
 use Core\Request;
 use Core\Response;
 use Core\View;
+use Error;
+use Monolog\Logger;
+use PHPExiftool\Driver\Metadata\Metadata;
+use PHPExiftool\Driver\Metadata\MetadataBag;
+use PHPExiftool\Driver\Tag\IPTC\ObjectName;
+use PHPExiftool\Driver\Value\Mono;
+use PHPExiftool\Writer;
 
 class ImageController extends Controller
 {
@@ -85,29 +92,31 @@ class ImageController extends Controller
 
             $active = false;
             foreach ($meta as $key => $value) {
-                if (!$active) {
-                    $list_tabs .= '<li class="active">
+                if ($key === "XMP" || $key === "EXIF" || $key === "IPTC") {
+                    if (!$active) {
+                        $list_tabs .= '<li class="active">
                                         <a class=""
                                         href="#' . $key . 'Div">' . $key . '</a>
                                     </li>';
-                    $list_tabs_views .=
-                        '<div class="active" id="' . $key . 'Div">';
-                    $active = true;
-                } else {
-                    $list_tabs .= '<li class="">
+                        $list_tabs_views .=
+                            '<div class="active" id="' . $key . 'Div">';
+                        $active = true;
+                    } else {
+                        $list_tabs .= '<li class="">
                                         <a class=""
                                         href="#' . $key . 'Div">' . $key . '</a>
                                     </li>';
-                    $list_tabs_views .= '<div class="" id="' . $key . 'Div">';
+                        $list_tabs_views .= '<div class="" id="' . $key . 'Div">';
+                    }
+                    $list_tabs_views .= $this->developPartExif($value, $key, $key);
+                    $list_tabs_views .= '</div>';
                 }
-                $list_tabs_views .= $this->developPartExif($value);
-                $list_tabs_views .= '</div>';
             }
             $list_tabs .= '</ul>';
             $form_html .= $list_tabs . $list_tabs_views;
 
         } else {
-            $form_html .= '<div class="alert alert-warning rounded-0">Pas de métadonnées détéctées</div>';
+            $form_html .= '<div class="alert alert-warning rounded-0">Pas de métadonnées détectées</div>';
         }
         $form_html .= '</div></div></div>';
         $form_html .= '<input type="submit" class="btn btn-outline-dark rounded-0 my-3 float-right" value="Valider et Téléverser">';
@@ -117,19 +126,22 @@ class ImageController extends Controller
     /**
      * @return string
      */
-    private function developPartExif($value, $key = null)
+    private function developPartExif($value, $key, $tab, $parent = null, $index = 0)
     {
         $html = '';
         if (is_array($value)) {
             foreach ($value as $key_bis => $value_bis) {
-                if ($key !== null) {
-                    $html .= '<label>' . $key . '</label>';
-                }
-                $html .= $this->developPartExif($value_bis, $key_bis);
+                $html .= $this->developPartExif($value_bis, $key_bis, $tab, $key, $index + 1);
             }
         } else {
-            $html .= '<div class="form-group"><label>'.$key.'</label>';
-            $html .= '<input type = "text" name = "' . $key . '" class="form-control form-control rounded-0" value = "' . $value . '" ></div>';
+            if ($index > 1) {
+                $html .= '<div class="form-group"><label>' . $tab . ':' . $parent . '.' . $key . '</label>';
+                $html .= '<input type = "text" name = "' . $tab . ':' . $parent . '.' . $key . '" class="form-control form-control rounded-0" value = "' . $value . '" ></div>';
+
+            } else {
+                $html .= '<div class="form-group"><label>' . $tab . ':' . $key . '</label>';
+                $html .= '<input type = "text" name = "' . $tab . ':' . $key . '" class="form-control form-control rounded-0" value = "' . $value . '" ></div>';
+            }
         }
         return $html;
     }
@@ -137,7 +149,38 @@ class ImageController extends Controller
     public function uploadAction()
     {
         if ($this->request->isAjaxRequest()) {
+            $data = array();
+            $data['SourceFile'] = $_FILES['file']['tmp_name'];
 
+            $last_key = '';
+            foreach ($this->request->getAllPostParams() as $key => $value) {
+                $keys = explode("_", $key);
+                if (count($keys) > 1) {
+                    $data[$keys[0]][$keys[1]] = $value;
+                } else {
+                    $data[$keys[0]] = $value;
+                }
+            }
+
+            $data = '[' . json_encode($data) . ']';
+            $fileName = uniqid('', true) . '.json';
+            $fp = fopen($fileName, 'w');
+            fwrite($fp, $data);
+            fclose($fp);
+
+            shell_exec('exiftool -overwrite_original -json=' . $fileName . ' ' . $_FILES['file']['tmp_name']);
+            json_decode(shell_exec("exiftool -json -g0 " . $_FILES['file']['tmp_name']), true);
+
+            unlink($fileName);
+
+            move_uploaded_file($_FILES['file']['tmp_name'], 'images/' . $_FILES['file']['name']);
         }
+    }
+
+    public function deleteAction($url)
+    {
+        unlink('images/' . $url);
+        header('Location: /devoir-idc2019/');
+        exit();
     }
 }

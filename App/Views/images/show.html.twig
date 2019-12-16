@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{url}}{% endblock %}
+{% block title %}{{ url }}{% endblock %}
 
 {% block stylesheet %}
     <style type="text/css">
@@ -19,8 +19,14 @@
 
 {% block body %}
     <div class="container-fluid pt-5">
-        <h1 class="text-center">{{url}}</h1>
+        <h1 class="text-center">{{ url }}</h1>
         <hr class="my-4">
+        <div class="row mb-2">
+            <div class="col">
+                <a class="btn btn-outline-danger rounded-0 float-right"
+                   href="/devoir-idc2019/image/{{ url }}/delete">Supprimer</a>
+            </div>
+        </div>
         <div class="row mb-2">
             <div class="col-xl-5 col-lg-7 col-md-8 col-sm-10 col-12 mx-auto">
                 <img src="../public/images/{{ url }}" class="img-fluid">

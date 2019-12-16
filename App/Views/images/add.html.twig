@@ -49,6 +49,7 @@
 {% endblock %}
 
 {% block body %}
+    <div id="result"></div>
     <form id="formAdd" class="container-fluid pt-5">
         <h1 class="text-center">Ajouter une image</h1>
         <hr class="my-4">
@@ -92,15 +93,8 @@
                 html.attr('src', url);
                 html.addClass('w-100 img-thumbnail shadow mb-3');
 
-                let xhr = new XMLHttpRequest();
-                xhr.open('GET', url, true);
-                xhr.responseType = 'blob';
-                xhr.onload = function (e) {
-                    if (this.status === 200) {
-                        file_to_upload = this.response;
-                    }
-                };
-                xhr.send();
+                file_to_upload = file;
+
                 $('#btnContinuer').fadeIn(100);
             } else {
                 html = $('<div class="alert alert-danger rounded-0 mb-3">Fichier invalide</div>');
@@ -185,7 +179,20 @@
 
         $('#formImage').on('submit', function (e) {
             e.preventDefault();
-            console.log(JSON.stringify($(this).serializeArray()));
+            let formData = new FormData(this);
+            formData.append("file", file_to_upload);
+            $.ajax({
+                url: '/devoir-idc2019/ajax/upload',
+                method: 'post',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    window.location = '/devoir-idc2019/';
+                }
+            })
         });
+
     </script>
 {% endblock %}

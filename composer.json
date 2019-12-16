@@ -3,7 +3,8 @@
         "twig/twig": "^2.0",
         "symfony/apache-pack": "^1.0",
       "ext-json": "*",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+      "ext-exif": "*"
     },
     "autoload": {
         "psr-4": {
