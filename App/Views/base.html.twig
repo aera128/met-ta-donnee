@@ -257,9 +257,10 @@
     });
 
     function bindAnimationUnload() {
-        $('a[href]').on('click', function () {
-            performPageTransition(this.getAttribute('href'));
-            return false;
+        $('a[href]').on('click', function (e) {
+            if (!$(this).hasClass('ui-tabs-anchor')){
+                performPageTransition(this.getAttribute('href'));
+            }
         });
     }
 

@@ -29,15 +29,15 @@
             overflow: hidden;
         }
 
-        @media (max-width: 992px) {
+        @media (max-width: 1200px) {
             .grid-sizer,
             .grid-item {
-                width: calc(33.333% - 10px);
+                width: calc(33.33% - 10px);
                 margin-bottom: 10px;
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .grid-sizer,
             .grid-item {
                 width: calc(50% - 10px);
@@ -52,6 +52,33 @@
                 margin-bottom: 10px;
             }
         }
+
+        .grid-item .overlay{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0);
+            transition: background-color 300ms ease-out;
+        }
+
+        .grid-item .overlay:hover{
+            background-color: rgba(0,0,0,0.5);
+        }
+
+
+        .grid-item .overlay .btn{
+            opacity: 0;
+            margin-top: 20px;
+            transition: all 300ms ease-out;
+        }
+
+        .grid-item .overlay:hover .btn{
+            margin-top: 0px;
+            opacity: 1;
+        }
+
     </style>
 {% endblock %}
 
@@ -59,13 +86,12 @@
     <div class="container-fluid pt-5">
         <h1 class="text-center">Accueil</h1>
         <hr class="my-4">
-        {% if user %}
-            <div class="row mb-4">
-                <div class="col-md-10 mx-auto">
-                    <a class="btn btn-outline-dark rounded-0 float-right" href="/devoir-idc2019/image/add">Ajouter une image</a>
-                </div>
+        <div class="row mb-4">
+            <div class="col-md-10 mx-auto">
+                <a class="btn btn-outline-dark rounded-0 float-right" href="/devoir-idc2019/image/add">Ajouter une
+                    image</a>
             </div>
-        {% endif %}
+        </div>
         <div class="row">
             <div class="col-md-10 mx-auto">
                 <div class="grid">
@@ -89,21 +115,59 @@
             });
 
             {% for img in images %}
-            var items{{ loop.index }} = $('<a class="grid-item"' +
-                'href="/devoir-idc2019/image/{{ img }}">' +
-                '<img class="grid-image" src="public/images/{{ img }}">' +
-                '</a>');
+            let item{{ loop.index }} = document.createElement('div');
+            $(item{{ loop.index }}).addClass("grid-item");
 
-            $(items{{ loop.index }}).on('click', function () {
-                performPageTransition(this.getAttribute('href'));
-                return false;
+            let img{{ loop.index }} = document.createElement('img');
+            $(img{{ loop.index }}).addClass('grid-image');
+            $(img{{ loop.index }}).attr('src', 'public/images/{{ img }}');
+
+            $(item{{ loop.index }}).append(img{{ loop.index }});
+            delete img{{ loop.index }};
+
+            let overlay{{ loop.index }} = document.createElement('div');
+            $(overlay{{ loop.index }}).addClass('overlay d-flex justify-content-center align-items-center');
+
+            let btn_show{{ loop.index }} = document.createElement('a');
+            $(btn_show{{ loop.index }}).html('Détails');
+            $(btn_show{{ loop.index }}).addClass('btn btn-outline-light rounded-0 mr-1');
+            $(btn_show{{ loop.index }}).attr('href', '/devoir-idc2019/image/{{img}}');
+
+            let btn_edit{{ loop.index }} = document.createElement('a');
+            $(btn_edit{{ loop.index }}).html('Modifier');
+            $(btn_edit{{ loop.index }}).addClass('btn btn-outline-light rounded-0');
+            $(btn_edit{{ loop.index }}).attr('href', '/devoir-idc2019/image/{{img}}/edit');
+
+            let btn_delete{{ loop.index }} = document.createElement('a');
+            $(btn_delete{{ loop.index }}).html('Supprimer');
+            $(btn_delete{{ loop.index }}).addClass('btn btn-danger rounded-0 ml-1');
+            $(btn_delete{{ loop.index }}).attr('href', '/devoir-idc2019/image/{{img}}/delete');
+            $(btn_delete{{ loop.index }}).on('click', function () {
+                return confirm('Êtes-vous sûr ?');
             });
 
+            $(overlay{{ loop.index }}).append(btn_show{{ loop.index }});
+            $(overlay{{ loop.index }}).append(btn_edit{{ loop.index }});
+            $(overlay{{ loop.index }}).append(btn_delete{{ loop.index }});
+
+            $(item{{ loop.index }}).append(overlay{{ loop.index }});
+            delete overlay{{ loop.index }};
+            delete btn_show{{ loop.index }};
+            delete btn_edit{{ loop.index }};
+            delete btn_delete{{ loop.index }};
+
             setTimeout(function () {
-                grid.append(items{{ loop.index }} ).masonry('appended', items{{ loop.index }} );
-                delete items{{ loop.index }};
+                grid.append(item{{ loop.index }} ).masonry('appended', item{{ loop.index }} );
+                delete item{{ loop.index }};
                 grid.masonry();
             }, 50 *{{ loop.index }});
+
+            $(item{{ loop.index }}).on('click', function (e) {
+                if ($(e.target).attr('href') !== undefined && $(e.target).attr('href') !== null){
+                    performPageTransition($(e.target).attr('href'));
+                }
+                return false;
+            });
             {% endfor %}
         }
 

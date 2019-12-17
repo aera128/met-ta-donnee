@@ -18,7 +18,6 @@ use PHPExiftool\Writer;
 
 class ImageController extends Controller
 {
-
     public $auth;
 
     /**
@@ -75,8 +74,84 @@ class ImageController extends Controller
     {
         if ($this->auth->user() === null) {
             header('Location: /devoir-idc2019/login');
+            exit();
         }
         View::renderTwig('images/add.html.twig');
+    }
+
+    public function editAction($url)
+    {
+        if ($this->auth->user() === null) {
+            header('Location: /devoir-idc2019/login');
+            exit();
+        }
+        $meta = json_decode(shell_exec("exiftool -json -g0 images/" . $url), true);
+        $meta = $meta[0];
+        $path = $meta['SourceFile'];
+        $form_html = '<div class="row"><div class="col-md-10 mx-auto"><div id="formTabs">';
+
+        if ($meta !== null) {
+            $list_tabs = '<ul>';
+            $list_tabs_views = '';
+            $active = false;
+            foreach ($meta as $key => $value) {
+                if ($key === "XMP" || $key === "EXIF" || $key === "IPTC") {
+                    if (!$active) {
+                        $list_tabs .= '<li class="active">
+                                        <a class=""
+                                        href="#' . $key . 'Div">' . $key . '</a>
+                                    </li>';
+                        $list_tabs_views .=
+                            '<div class="active" id="' . $key . 'Div">';
+                        $active = true;
+                    } else {
+                        $list_tabs .= '<li class="">
+                                        <a class=""
+                                        href="#' . $key . 'Div">' . $key . '</a>
+                                    </li>';
+                        $list_tabs_views .= '<div class="" id="' . $key . 'Div">';
+                    }
+                    $list_tabs_views .= $this->developPartExif($value, $key, $key);
+                    $list_tabs_views .= '</div>';
+                }
+            }
+            $list_tabs .= '</ul>';
+            $form_html .= $list_tabs . $list_tabs_views;
+
+        } else {
+            $form_html .= '<div class="alert alert-warning rounded-0">Pas de métadonnées détectées</div>';
+        }
+        $form_html .= '</div></div></div>';
+        $form_html .= '<input type="submit" class="btn btn-outline-dark rounded-0 my-3 float-right" value="Valider et Téléverser">';
+        View::renderTwig('images/edit.html.twig', array(
+            "form" => $form_html,
+            "url" => $url,
+            "path" => $path
+        ));
+    }
+
+    public function editAjaxAction(){
+        $data = $this->request->getAllPostParams();
+        $source = $data['SourceFile'];
+        $last_key = '';
+        foreach ($this->request->getAllPostParams() as $key => $value) {
+            $keys = explode("_", $key);
+            if (count($keys) > 1) {
+                $data[$keys[0]][$keys[1]] = $value;
+            } else {
+                $data[$keys[0]] = $value;
+            }
+        }
+
+        $data = '[' . json_encode($data) . ']';
+        $fileName = uniqid('', true) . '.json';
+        $fp = fopen($fileName, 'w');
+        fwrite($fp, $data);
+        fclose($fp);
+
+        shell_exec('exiftool -overwrite_original -json=' . $fileName . ' ' . $source);
+
+        unlink($fileName);
     }
 
     public function pendingAction()
@@ -89,7 +164,6 @@ class ImageController extends Controller
         if ($meta !== null) {
             $list_tabs = '<ul>';
             $list_tabs_views = '';
-
             $active = false;
             foreach ($meta as $key => $value) {
                 if ($key === "XMP" || $key === "EXIF" || $key === "IPTC") {
@@ -169,7 +243,6 @@ class ImageController extends Controller
             fclose($fp);
 
             shell_exec('exiftool -overwrite_original -json=' . $fileName . ' ' . $_FILES['file']['tmp_name']);
-            json_decode(shell_exec("exiftool -json -g0 " . $_FILES['file']['tmp_name']), true);
 
             unlink($fileName);
 
