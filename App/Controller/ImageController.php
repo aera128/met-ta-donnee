@@ -36,6 +36,9 @@ class ImageController extends Controller
         $meta = json_decode(shell_exec("exiftool -json -g2 images/" . $url), true);
 
         $meta = $meta[0];
+//        dump(json_decode(shell_exec("exiftool -json -g0 images/" . $url), true));
+//        dump(json_decode(shell_exec("exiftool -json -g1 images/" . $url), true));
+//        dump(json_decode(shell_exec("exiftool -json -g2 images/" . $url), true));
 
         $lat = null;
         $long = null;
@@ -85,6 +88,7 @@ class ImageController extends Controller
             header('Location: /devoir-idc2019/login');
             exit();
         }
+
         $meta = json_decode(shell_exec("exiftool -json -g0 images/" . $url), true);
         $meta = $meta[0];
         $path = $meta['SourceFile'];
@@ -130,7 +134,8 @@ class ImageController extends Controller
         ));
     }
 
-    public function editAjaxAction(){
+    public function editAjaxAction()
+    {
         $data = $this->request->getAllPostParams();
         $source = $data['SourceFile'];
         $last_key = '';
