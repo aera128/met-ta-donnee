@@ -22,18 +22,20 @@
         <h1 class="text-center">{{ url }}</h1>
         <hr class="my-4">
         <div class="row mb-2">
-            <div class="col">
-                <a class="btn btn-outline-danger rounded-0 float-right"
-                   href="/devoir-idc2019/image/{{ url }}/delete">Supprimer</a>
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-xl-5 col-lg-7 col-md-8 col-sm-10 col-12 mx-auto">
-                <img src="../public/images/{{ url }}" class="img-fluid">
+            <div class="col ml-auto">
+                <a class="btn btn-outline-dark rounded-0"
+                   href="/devoir-idc2019/image/{{ url }}/edit">Modifier</a>
+                <a class="btn btn-outline-danger rounded-0 "
+                   href="/devoir-idc2019/image/{{ url }}/delete"
+                   onclick="return confirm('Êtes-vous sûr ?')">Supprimer</a>
+
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-xl-5 col-lg-6 col-md-10 col-12 mx-auto">
+                <img src="../public/images/{{ url }}" class="img-fluid sticky-top mb-lg-0 mb-md-4" style="top:30px">
+            </div>
+            <div class="col-xl-7 col-lg-6 col-md-10 col-12 mx-auto">
                 <div class="card rounded-0">
                     <div class="card-header lead">Métadonnées</div>
                     <div class="card-body">
@@ -78,8 +80,8 @@
             </div>
         </div>
         {% if lat is defined and long is defined %}
-            <div class="row my-5">
-                <div class="col-md-10 mx-auto">
+            <div class="row my-4">
+                <div class="col mx-auto">
                     <div id="map"></div>
                 </div>
             </div>

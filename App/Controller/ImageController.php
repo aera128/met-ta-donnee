@@ -33,23 +33,29 @@ class ImageController extends Controller
 
     public function showAction($url)
     {
-        $meta = json_decode(shell_exec("exiftool -json -g2 images/" . $url), true);
+        $meta["G0"] = json_decode(shell_exec("exiftool -json -g0 images/" . $url), true)[0];
+        $meta["G1"] = json_decode(shell_exec("exiftool -json -g1 images/" . $url), true)[0];
+        $meta["G2"] = json_decode(shell_exec("exiftool -json -g2 images/" . $url), true)[0];
+        $meta["G3"] = json_decode(shell_exec("exiftool -json -g2 images/" . $url), true)[0];
+        $meta["G4"] = json_decode(shell_exec("exiftool -json -g2 images/" . $url), true)[0];
 
-        $meta = $meta[0];
-//        dump(json_decode(shell_exec("exiftool -json -g0 images/" . $url), true));
-//        dump(json_decode(shell_exec("exiftool -json -g1 images/" . $url), true));
-//        dump(json_decode(shell_exec("exiftool -json -g2 images/" . $url), true));
+        $meta = array_merge($meta["G0"], $meta["G1"], $meta["G2"], $meta["G3"], $meta["G4"]);
+
+        unset(
+            $meta["SourceFile"],
+            $meta["ExifTool"],
+        );
 
         $lat = null;
         $long = null;
-        if (isset($meta["Composite"])) {
-            if ($meta["Composite"]["GPSLatitude"] !== null && $meta["Composite"]["GPSLongitude"]) {
-                $lat = explode(" ", $meta["Composite"]["GPSLatitude"]);
+        if (isset($meta["Location"]) && isset($meta["Location"]["GPSLatitude"]) && isset($meta["Location"]["GPSLongitude"])) {
+            if ($meta["Location"]["GPSLatitude"] !== null && $meta["Location"]["GPSLongitude"]) {
+                $lat = explode(" ", $meta["Location"]["GPSLatitude"]);
                 $lat = $lat[3];
                 $lat = rtrim($lat, "\"");
                 $lat = (float)$lat;
 
-                $long = explode(" ", $meta["Composite"]["GPSLongitude"]);
+                $long = explode(" ", $meta["Location"]["GPSLongitude"]);
                 $long = $long[3];
                 $long = rtrim($long, "\"");
                 $long = (float)$long;
@@ -89,9 +95,16 @@ class ImageController extends Controller
             exit();
         }
 
-        $meta = json_decode(shell_exec("exiftool -json -g0 images/" . $url), true);
-        $meta = $meta[0];
+        $meta["G0"] = json_decode(shell_exec("exiftool -json -g0 images/" . $url), true)[0];
+        $meta["G1"] = json_decode(shell_exec("exiftool -json -g0 images/" . $url), true)[0];
+        $meta["G2"] = json_decode(shell_exec("exiftool -json -g0 images/" . $url), true)[0];
+        $meta["G3"] = json_decode(shell_exec("exiftool -json -g0 images/" . $url), true)[0];
+        $meta["G4"] = json_decode(shell_exec("exiftool -json -g0 images/" . $url), true)[0];
+
+        $meta = array_merge($meta["G0"], $meta["G1"], $meta["G2"], $meta["G3"], $meta["G4"]);
+
         $path = $meta['SourceFile'];
+
         $form_html = '<div class="row"><div class="col-md-10 mx-auto"><div id="formTabs">';
 
         if ($meta !== null) {
@@ -99,7 +112,7 @@ class ImageController extends Controller
             $list_tabs_views = '';
             $active = false;
             foreach ($meta as $key => $value) {
-                if ($key === "XMP" || $key === "EXIF" || $key === "IPTC") {
+                if ($key !== "SourceFile" && $key !== "ExifTool" && $key !== "File") {
                     if (!$active) {
                         $list_tabs .= '<li class="active">
                                         <a class=""
@@ -139,19 +152,20 @@ class ImageController extends Controller
         $data = $this->request->getAllPostParams();
         $source = $data['SourceFile'];
         $last_key = '';
-        foreach ($this->request->getAllPostParams() as $key => $value) {
-            $keys = explode("_", $key);
+        $meta = array();
+        $meta['SourceFile'] = $source;
+        foreach ($data as $key => $value) {
+            $keys = explode("::", $key);
             if (count($keys) > 1) {
-                $data[$keys[0]][$keys[1]] = $value;
+                $meta[$keys[0]][$keys[1]] = $value;
             } else {
-                $data[$keys[0]] = $value;
+                $meta[$keys[0]] = $value;
             }
         }
-
-        $data = '[' . json_encode($data) . ']';
+        $meta = '[' . json_encode($meta) . ']';
         $fileName = uniqid('', true) . '.json';
         $fp = fopen($fileName, 'w');
-        fwrite($fp, $data);
+        fwrite($fp, $meta);
         fclose($fp);
 
         shell_exec('exiftool -overwrite_original -json=' . $fileName . ' ' . $source);
@@ -214,8 +228,8 @@ class ImageController extends Controller
             }
         } else {
             if ($index > 1) {
-                $html .= '<div class="form-group"><label>' . $tab . ':' . $parent . '.' . $key . '</label>';
-                $html .= '<input type = "text" name = "' . $tab . ':' . $parent . '.' . $key . '" class="form-control form-control rounded-0" value = "' . $value . '" ></div>';
+                $html .= '<div class="form-group"><label>' . $tab . ':' . $parent . '::' . $key . '</label>';
+                $html .= '<input type = "text" name = "' . $tab . ':' . $parent . '::' . $key . '" class="form-control form-control rounded-0" value = "' . $value . '" ></div>';
 
             } else {
                 $html .= '<div class="form-group"><label>' . $tab . ':' . $key . '</label>';
@@ -233,7 +247,7 @@ class ImageController extends Controller
 
             $last_key = '';
             foreach ($this->request->getAllPostParams() as $key => $value) {
-                $keys = explode("_", $key);
+                $keys = explode("::", $key);
                 if (count($keys) > 1) {
                     $data[$keys[0]][$keys[1]] = $value;
                 } else {
@@ -250,7 +264,6 @@ class ImageController extends Controller
             shell_exec('exiftool -overwrite_original -json=' . $fileName . ' ' . $_FILES['file']['tmp_name']);
 
             unlink($fileName);
-
             move_uploaded_file($_FILES['file']['tmp_name'], 'images/' . $_FILES['file']['name']);
         }
     }
