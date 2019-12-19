@@ -9,11 +9,11 @@ use Core\Controller;
 use Core\Request;
 use Core\Response;
 use Core\View;
-use PDO;
 
 class UserController extends Controller
 {
     private $auth;
+
     /**
      * UserController constructor.
      * @param Request $request
@@ -27,20 +27,21 @@ class UserController extends Controller
 
     public function loginAction()
     {
-        if ($this->auth->user() !== null){
+        if ($this->auth->user() !== null) {
             header('Location: /devoir-idc2019');
         }
         View::renderTwig('user/login.html.twig');
     }
 
-    public function loginAjaxAction(){
+    public function loginAjaxAction()
+    {
         $formData = array(
             "username" => $this->request->getPostParam("username", null),
             "password" => $this->request->getPostParam("password", null)
         );
 
         $user = $this->auth->login($formData['username'], $formData['password']);
-        if ($user !== null){
+        if ($user !== null) {
             echo 'success';
             exit();
         }

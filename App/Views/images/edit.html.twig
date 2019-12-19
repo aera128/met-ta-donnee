@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ url }}{% endblock %}
+{% block title %}Modification{% endblock %}
 
 {% block stylesheet %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css"
@@ -11,9 +11,9 @@
         <h1 class="text-center">{{ url }}</h1>
         <hr class="my-4">
         <form id="formImage" class="container-fluid">
-        {{ form|raw }}
+            {{ form|raw }}
         </form>
-{#        <div id="result"></div>#}
+        {#        <div id="result"></div>#}
     </div>
 {% endblock %}
 {% block javascripts %}

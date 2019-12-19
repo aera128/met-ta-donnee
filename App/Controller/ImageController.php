@@ -2,19 +2,11 @@
 
 namespace App\Controller;
 
-use App\Models\User;
 use Core\AuthManager;
 use Core\Controller;
 use Core\Request;
 use Core\Response;
 use Core\View;
-use Error;
-use Monolog\Logger;
-use PHPExiftool\Driver\Metadata\Metadata;
-use PHPExiftool\Driver\Metadata\MetadataBag;
-use PHPExiftool\Driver\Tag\IPTC\ObjectName;
-use PHPExiftool\Driver\Value\Mono;
-use PHPExiftool\Writer;
 
 class ImageController extends Controller
 {
@@ -41,10 +33,7 @@ class ImageController extends Controller
 
         $meta = array_merge($meta["G0"], $meta["G1"], $meta["G2"], $meta["G3"], $meta["G4"]);
 
-        unset(
-            $meta["SourceFile"],
-            $meta["ExifTool"],
-        );
+        unset($meta["SourceFile"],$meta["ExifTool"]);
 
         $lat = null;
         $long = null;

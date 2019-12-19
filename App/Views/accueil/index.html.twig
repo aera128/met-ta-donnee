@@ -53,28 +53,28 @@
             }
         }
 
-        .grid-item .overlay{
+        .grid-item .overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0);
+            background-color: rgba(0, 0, 0, 0);
             transition: background-color 300ms ease-out;
         }
 
-        .grid-item .overlay:hover{
-            background-color: rgba(0,0,0,0.5);
+        .grid-item .overlay:hover {
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
 
-        .grid-item .overlay .btn{
+        .grid-item .overlay .btn {
             opacity: 0;
             margin-top: 20px;
             transition: all 300ms ease-out;
         }
 
-        .grid-item .overlay:hover .btn{
+        .grid-item .overlay:hover .btn {
             margin-top: 0px;
             opacity: 1;
         }
@@ -131,17 +131,17 @@
             let btn_show{{ loop.index }} = document.createElement('a');
             $(btn_show{{ loop.index }}).html('Détails');
             $(btn_show{{ loop.index }}).addClass('btn btn-outline-light rounded-0 mr-1');
-            $(btn_show{{ loop.index }}).attr('href', '/devoir-idc2019/image/{{img}}');
+            $(btn_show{{ loop.index }}).attr('href', '/devoir-idc2019/image/{{ img }}');
 
             let btn_edit{{ loop.index }} = document.createElement('a');
             $(btn_edit{{ loop.index }}).html('Modifier');
             $(btn_edit{{ loop.index }}).addClass('btn btn-outline-light rounded-0');
-            $(btn_edit{{ loop.index }}).attr('href', '/devoir-idc2019/image/{{img}}/edit');
+            $(btn_edit{{ loop.index }}).attr('href', '/devoir-idc2019/image/{{ img }}/edit');
 
             let btn_delete{{ loop.index }} = document.createElement('a');
             $(btn_delete{{ loop.index }}).html('Supprimer');
             $(btn_delete{{ loop.index }}).addClass('btn btn-danger rounded-0 ml-1');
-            $(btn_delete{{ loop.index }}).attr('href', '/devoir-idc2019/image/{{img}}/delete');
+            $(btn_delete{{ loop.index }}).attr('href', '/devoir-idc2019/image/{{ img }}/delete');
             $(btn_delete{{ loop.index }}).on('click', function () {
                 return confirm('Êtes-vous sûr ?');
             });
@@ -163,7 +163,7 @@
             }, 50 *{{ loop.index }});
 
             $(item{{ loop.index }}).on('click', function (e) {
-                if ($(e.target).attr('href') !== undefined && $(e.target).attr('href') !== null){
+                if ($(e.target).attr('href') !== undefined && $(e.target).attr('href') !== null) {
                     performPageTransition($(e.target).attr('href'));
                 }
                 return false;

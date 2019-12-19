@@ -45,6 +45,16 @@
         #btnContinuer {
             display: none;
         }
+
+        #loader {
+            background-color: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top:0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
     </style>
 {% endblock %}
 
@@ -67,13 +77,18 @@
         </div>
         <div class="row">
             <div class="col text-center">
-                <input type="submit" class="btn btn-outline-dark btn-lg rounded-0 mb-3" value="Continuer"
-                       id="btnContinuer">
+                <button type="submit" class="btn btn-outline-dark btn-lg rounded-0 mb-3" id="btnContinuer">Continuer
+                </button>
             </div>
         </div>
     </form>
     <form id="formImage" class="container-fluid">
     </form>
+    <div id="loader">
+        <div class="d-flex justify-content-center align-items-center w-100 h-100">
+            <div class="spinner-border text-light" role="status"><span class="sr-only">Loading...</span></div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -158,16 +173,22 @@
                 let xhr = new XMLHttpRequest();
                 xhr.open('POST', '/devoir-idc2019/ajax/image-pending');
                 xhr.file = file_to_upload;
+
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         $('#btnContinuer').fadeOut(100);
                         $('#formImage').html(xhr.responseText);
                         $('#formTabs').tabs();
                     }
+                    $('#btnContinuer').html("Continuer");
                 };
 
                 xhr.addEventListener('loadstart', function (e) {
-                    $('#formImage').html('<div class="w-100 text-center"><div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div></div>');
+                    $('#btnContinuer').html(
+                        '<div class="spinner-grow" role="status">' +
+                        '  <span class="sr-only">Loading...</span>' +
+                        '</div>'
+                    );
                 });
                 xhr.send(formData);
 
@@ -188,7 +209,11 @@
                 contentType: false,
                 processData: false,
                 data: formData,
+                beforeSend: function () {
+                    $('#loader').fadeIn();
+                },
                 success: function (data) {
+                    $('#loader').fadeOut();
                     window.location = '/devoir-idc2019/';
                 }
             })

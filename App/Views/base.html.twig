@@ -234,7 +234,7 @@
             {% endif %}
         </ul>
     </div>
-</nav><!-- end overlay -->
+</nav>
 <section class="body">
     {% block body %}
     {% endblock %}
@@ -260,6 +260,7 @@
         $('a[href]').on('click', function (e) {
             if (!$(this).hasClass('ui-tabs-anchor')){
                 performPageTransition(this.getAttribute('href'));
+                return false;
             }
         });
     }
@@ -281,7 +282,6 @@
             }, 300);
         }
     }
-
     bindAnimationUnload();
 </script>
 {% block javascripts %}
