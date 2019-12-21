@@ -40,14 +40,22 @@ class ImageController extends Controller
         if (isset($meta["Location"]) && isset($meta["Location"]["GPSLatitude"]) && isset($meta["Location"]["GPSLongitude"])) {
             if ($meta["Location"]["GPSLatitude"] !== null && $meta["Location"]["GPSLongitude"]) {
                 $lat = explode(" ", $meta["Location"]["GPSLatitude"]);
-                $lat = $lat[3];
-                $lat = rtrim($lat, "\"");
+                $card = $lat[4];
+                $lat = ((float)$lat[0]) + ((float)rtrim($lat[2], "'")/60) + ((float)$lat[3]/3600);
                 $lat = (float)$lat;
+                if ($card === "S"){
+                    $lat = -$lat;
+                }
 
                 $long = explode(" ", $meta["Location"]["GPSLongitude"]);
-                $long = $long[3];
-                $long = rtrim($long, "\"");
+                $card = $long[4];
+                $long = ((float)$long[0]) + ((float)rtrim($long[2], "'")/60) + ((float)$long[3]/3600);
                 $long = (float)$long;
+                if ($card === "W"){
+                    $long = -$long;
+                }
+
+
             }
         }
 
