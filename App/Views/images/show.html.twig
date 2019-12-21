@@ -90,6 +90,11 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#loader').fadeOut(300);
+        });
+    </script>
     {% if lat is defined and long is defined %}
         <script>
             // Initialize and add the map

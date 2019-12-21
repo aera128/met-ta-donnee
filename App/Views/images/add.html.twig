@@ -46,7 +46,7 @@
             display: none;
         }
 
-        #loader {
+        #loaderUpload {
             background-color: rgba(0, 0, 0, 0.5);
             position: fixed;
             top:0;
@@ -84,7 +84,7 @@
     </form>
     <form id="formImage" class="container-fluid">
     </form>
-    <div id="loader">
+    <div id="loaderUpload">
         <div class="d-flex justify-content-center align-items-center w-100 h-100">
             <div class="spinner-border text-light" role="status"><span class="sr-only">Loading...</span></div>
         </div>
@@ -210,10 +210,10 @@
                 processData: false,
                 data: formData,
                 beforeSend: function () {
-                    $('#loader').fadeIn();
+                    $('#loaderUpload').fadeIn();
                 },
                 success: function (data) {
-                    $('#loader').fadeOut();
+                    $('#loaderUpload').fadeOut();
                     window.location = '/devoir-idc2019/';
                 }
             })

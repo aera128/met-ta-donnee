@@ -201,12 +201,46 @@
             font-size: small;
             z-index: 5000;
         }
+
+        .footer{
+            width: 100%;
+            height: 100px;
+            background-color: black;
+            color: white;
+        }
+
+        .svg-separator{
+            display: block;
+            background: 0 0;
+            /*position: absolute;*/
+            left: 0;
+            right: 0;
+            top: 0;
+            z-index: 9;
+            /*-webkit-transform: translateY(-100%) translateY(2px);*/
+            /*transform: translateY(-100%) translateY(2px);*/
+            width: 100%;
+        }
+        #loader {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
     </style>
 
     {% block stylesheet %}
     {% endblock %}
 </head>
 <body>
+<div id="loader">
+    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+        <div class="spinner-border text-light" role="status"><span class="sr-only">Loading..</span></div>
+    </div>
+</div>
 <div class="burger burger-squeeze" style="font-size: 15px">
     <div class="burger-lines"></div>
 </div>
@@ -235,10 +269,20 @@
         </ul>
     </div>
 </nav>
-<section class="body">
+<section class="body" style="min-height: 100vh">
     {% block body %}
     {% endblock %}
 </section>
+<svg id="" preserveAspectRatio="xMidYMax meet" class="svg-separator mt-5" viewBox="0 0 1600 200" style="display: block;" data-height="200">
+    <polygon class="" style="fill: rgb(0, 0, 0);" points="1488,134 1304,100 1068,152 909.935,92.044 672,198 364,142 242,32 -4,95 -4,204 1604,204 1604,0 "></polygon>
+    <polygon class="" style="opacity: 1;fill: #524f50;" points="672,198 364,142 242,32 -4,95 -4,82.333 242,32 374,136 "></polygon>
+    <polygon class="" style="opacity: 1;fill: #524f50;" points="894,86 672,198 909.935,92.044 "></polygon>
+    <polygon class="" style="opacity: 1;fill: #171a1d;" points="1068,152 1302,86 1486,126 1604,0 1488,134 1304,100 "></polygon></svg>
+<footer class="footer d-flex justify-content-center align-items-center mt-0">
+    <p class="lead">&copy; 2019-2020
+        <a href="#">Mentions Légales</a>
+    </p>
+</footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -258,7 +302,7 @@
 
     function bindAnimationUnload() {
         $('a[href]').on('click', function (e) {
-            if (!$(this).hasClass('ui-tabs-anchor')){
+            if (!$(this).hasClass('ui-tabs-anchor')) {
                 performPageTransition(this.getAttribute('href'));
                 return false;
             }
@@ -270,19 +314,25 @@
             $('body').removeClass('show');
             $('.burger').removeClass('open');
             setTimeout(function () {
-                $('.body').fadeOut(300);
+                $('#loader').fadeIn(300);
+
             }, 300);
             setTimeout(function () {
                 window.location = newUrl;
             }, 600);
         } else {
-            $('.body').fadeOut(300);
+            $('#loader').fadeIn(300);
             setTimeout(function () {
                 window.location = newUrl;
             }, 300);
         }
     }
+
     bindAnimationUnload();
+
+    $(document).ready(function () {
+       $('#loader').fadeOut(300);
+    });
 </script>
 {% block javascripts %}
 {% endblock %}

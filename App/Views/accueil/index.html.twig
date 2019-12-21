@@ -161,7 +161,7 @@
                 grid.append(item{{ loop.index }} ).masonry('appended', item{{ loop.index }} );
                 delete item{{ loop.index }};
                 grid.masonry();
-            }, 50 *{{ loop.index }});
+            }, 300 + 50 *{{ loop.index }});
 
             $(item{{ loop.index }}).on('click', function (e) {
                 if ($(e.target).attr('href') !== undefined && $(e.target).attr('href') !== null) {
