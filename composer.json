@@ -4,7 +4,8 @@
         "symfony/apache-pack": "^1.0",
       "ext-json": "*",
       "ext-pdo": "*",
-      "ext-exif": "*"
+      "ext-exif": "*",
+      "ext-gd": "*"
     },
     "autoload": {
         "psr-4": {

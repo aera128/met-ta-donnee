@@ -121,6 +121,7 @@
             let img{{ loop.index }} = document.createElement('img');
             $(img{{ loop.index }}).addClass('grid-image');
             $(img{{ loop.index }}).attr('src', 'public/images/{{ img }}');
+            $(img{{ loop.index }}).attr('srcset', 'public/thumbnails500/{{ img }} 500w, public/thumbnails300/{{ img }} 300w');
 
             $(item{{ loop.index }}).append(img{{ loop.index }});
             delete img{{ loop.index }};
