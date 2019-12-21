@@ -34,4 +34,8 @@ class AccueilController extends Controller
             'images' => $images
         ));
     }
+
+    public function aboutAction(){
+        View::renderTwig('accueil/about.html.twig');
+    }
 }

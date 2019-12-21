@@ -46,6 +46,9 @@ $router->get('/login', 'User::login');
 $router->post('/ajax/login', 'User::loginAjax');
 
 $router->get('/logout', 'User::logout');
+
+$router->get('/about', 'Accueil::about');
+
 //$router->get('/createdb', 'User::createdatabase');
 try {
     $router->run();
